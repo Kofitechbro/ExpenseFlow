@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
-import Header from './components/Header';
-import SummaryCards from './components/SummaryCards';
+import Header from './components/Header/Header';
+import SummaryCards from './components/SummaryCards/SummaryCards';
 
 function App() {
   const [transactions, setTransactions] = useState([
@@ -15,7 +15,6 @@ function App() {
     <div className="App">
       <Header />
       <main>
-        <h1>Dashboard</h1>
         <SummaryCards transactions={transactions} />
       </main>
     </div>

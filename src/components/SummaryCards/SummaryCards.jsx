@@ -1,3 +1,6 @@
+import './SummaryCards.css';
+import SummaryCard from './SummaryCard';
+
 function SummaryCards({ transactions }) {
   // Filter transactions based on type (income or expense)
   const incomeTransactions = transactions.filter(
@@ -23,20 +26,9 @@ function SummaryCards({ transactions }) {
 
   return (
     <section className="summary-cards">
-      <div className="summary-card">
-        <h3>Total Balance</h3>
-        <p>₵{totalBalance.toFixed(2)}</p>
-      </div>
-
-      <div className="summary-card">
-        <h3>Total Income</h3>
-        <p>₵{totalIncome.toFixed(2)}</p>
-      </div>
-
-      <div className="summary-card">
-        <h3>Total Expenses</h3>
-        <p>₵{totalExpenses.toFixed(2)}</p>
-      </div>
+      <SummaryCard title="Total Balance" amount={totalBalance} />
+      <SummaryCard title="Total Income" amount={totalIncome} />
+      <SummaryCard title="Total Expenses" amount={totalExpenses} />
     </section>
   );
 }
