@@ -10,7 +10,7 @@ function TransactionList({ transactions }) {
         <input type="text" name="search" placeholder="Search transaction" />
 
         <select defaultValue="">
-          <option value="Category" disabled selected>
+          <option value="" disabled>
             Select a Category
           </option>
           <option value="Health">Health</option>
