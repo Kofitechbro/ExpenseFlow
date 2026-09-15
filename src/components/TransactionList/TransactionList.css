@@ -1,0 +1,122 @@
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.transaction-list-controls {
+  background-color: var(--color-surface);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  /* box-shadow: var(--shadow); */
+}
+
+.transaction-list-controls input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+
+  font: inherit;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+.transaction-list-controls select {
+  padding: 0.5rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+
+  background-color: var(--color-surface);
+  color: var(--color-text);
+
+  cursor: pointer;
+  font: inherit;
+}
+
+.transaction-list-info {
+  background-color: var(--color-surface);
+  /* border: 1px solid var(--color-border); */
+  border-radius: 0.5rem;
+  /* box-shadow: var(--shadow); */
+}
+
+.transaction-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.transaction-list-header p {
+  color: var(--color-text-muted);
+}
+
+.transaction-list-header button {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.transaction-list-header button:hover {
+  opacity: 0.7;
+}
+
+.transaction-card {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+
+  transition: background-color 0.2s ease;
+}
+
+.transaction-card:hover {
+  background-color: var(--color-background);
+}
+
+.transaction-category,
+.transaction-amount {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.transaction-title {
+  font-weight: 600;
+}
+
+.transaction-main {
+  font-weight: 500;
+}
+
+.transaction-secondary {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.transaction-amount .transaction-main {
+  font-weight: 600;
+}
+
+.transaction-income {
+  color: var(--color-green);
+}
+
+.transaction-expense {
+  color: var(--color-red);
+}

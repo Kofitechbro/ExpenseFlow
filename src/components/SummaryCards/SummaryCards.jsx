@@ -4,11 +4,11 @@ import SummaryCard from './SummaryCard';
 function SummaryCards({ transactions }) {
   // Filter transactions based on type (income or expense)
   const incomeTransactions = transactions.filter(
-    (transaction) => transaction.type === 'income',
+    (transaction) => transaction.type === 'Income',
   );
 
   const expenseTransactions = transactions.filter(
-    (transaction) => transaction.type === 'expense',
+    (transaction) => transaction.type === 'Expense',
   );
 
   // Calculate total income, total expenses, and total balance
