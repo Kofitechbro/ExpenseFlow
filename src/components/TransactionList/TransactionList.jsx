@@ -10,6 +10,16 @@ function TransactionList({ transactions }) {
     (transaction) => category === '' || transaction.category === category,
   );
 
+  const filteredType = transactions.filter(
+    (transaction) => type === '' || transaction.type === type,
+  );
+
+  const filteredTransaction = transactions.filter(
+    (transaction) =>
+      (type === '' || transaction.type === type) &&
+      (category === '' || transaction.category === category),
+  );
+
   return (
     <section className="transaction-list">
       <div className="transaction-list-controls">
@@ -44,7 +54,7 @@ function TransactionList({ transactions }) {
         </div>
 
         <div className="transaction-list-items">
-          {filteredCategory.map((transaction) => (
+          {filteredTransaction.map((transaction) => (
             <TransactionItem transaction={transaction} key={transaction.id} />
           ))}
         </div>
