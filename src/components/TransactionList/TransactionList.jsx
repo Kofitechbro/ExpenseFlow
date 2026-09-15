@@ -6,6 +6,10 @@ function TransactionList({ transactions }) {
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
 
+  const filteredCategory = transactions.filter(
+    (transaction) => category === '' || transaction.category === category,
+  );
+
   return (
     <section className="transaction-list">
       <div className="transaction-list-controls">
@@ -33,17 +37,14 @@ function TransactionList({ transactions }) {
         </select>
       </div>
 
-      <div className="category-type">
-        <p>
-          <strong>Selected Category:</strong> {category}
-        </p>
-        <p>
-          <strong>Selected Type:</strong> {type}
-        </p>
-      </div>
+      <div className="transaction-list-info">
+        <div className="transaction-list-header">
+          <h4>Transactions</h4>
+          <button type="button">View All</button>
+        </div>
 
         <div className="transaction-list-items">
-          {transactions.map((transaction) => (
+          {filteredCategory.map((transaction) => (
             <TransactionItem transaction={transaction} key={transaction.id} />
           ))}
         </div>
