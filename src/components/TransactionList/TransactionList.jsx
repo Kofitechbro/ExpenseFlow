@@ -5,7 +5,9 @@ import { useState } from 'react';
 function TransactionList({ transactions }) {
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
+  const [search, setSearch] = useState('');
 
+  /*
   const filteredCategory = transactions.filter(
     (transaction) => category === '' || transaction.category === category,
   );
@@ -13,6 +15,7 @@ function TransactionList({ transactions }) {
   const filteredType = transactions.filter(
     (transaction) => type === '' || transaction.type === type,
   );
+  */
 
   const filteredTransaction = transactions.filter(
     (transaction) =>
@@ -20,10 +23,24 @@ function TransactionList({ transactions }) {
       (category === '' || transaction.category === category),
   );
 
+  const filterSearch = transactions.filter(
+    (transaction) =>
+      search === '' ||
+      transaction.description.toLowerCase().includes(search.toLowerCase()) ||
+      transaction.category.toLowerCase().includes(search.toLowerCase()) ||
+      transaction.type.toLowerCase().includes(search.toLowerCase()),
+  );
+
   return (
     <section className="transaction-list">
       <div className="transaction-list-controls">
-        <input type="text" name="search" placeholder="Search transaction" />
+        <input
+          type="text"
+          name="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search transaction"
+        />
 
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="" disabled>
@@ -54,7 +71,7 @@ function TransactionList({ transactions }) {
         </div>
 
         <div className="transaction-list-items">
-          {filteredTransaction.map((transaction) => (
+          {filterSearch.map((transaction) => (
             <TransactionItem transaction={transaction} key={transaction.id} />
           ))}
         </div>
