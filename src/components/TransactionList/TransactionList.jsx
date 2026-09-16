@@ -15,14 +15,7 @@ function TransactionList({ transactions }) {
   const filteredType = transactions.filter(
     (transaction) => type === '' || transaction.type === type,
   );
-  */
-
-  const filteredTransaction = transactions.filter(
-    (transaction) =>
-      (type === '' || transaction.type === type) &&
-      (category === '' || transaction.category === category),
-  );
-
+    
   const filterSearch = transactions.filter(
     (transaction) =>
       search === '' ||
@@ -30,6 +23,35 @@ function TransactionList({ transactions }) {
       transaction.category.toLowerCase().includes(search.toLowerCase()) ||
       transaction.type.toLowerCase().includes(search.toLowerCase()),
   );
+
+
+const filteredTransactions = transactions.filter((transaction) => {
+    const searchableText =
+      transaction.description.toLowerCase() +
+      transaction.category.toLowerCase() +
+      transaction.type.toLowerCase();
+
+    return (
+      (type === '' || transaction.type === type) &&
+      (category === '' || transaction.category === category) &&
+      (search === '' || searchableText.includes(searchTerm))
+    );
+  });
+
+  */
+
+  const searchTerm = search.toLowerCase();
+  const filteredTransactions = transactions.filter(
+    (transaction) =>
+      (search === '' ||
+        transaction.description.toLowerCase().includes(search.toLowerCase()) ||
+        transaction.category.toLowerCase().includes(search.toLowerCase()) ||
+        transaction.type.toLowerCase().includes(search.toLowerCase())) &&
+      (category === '' || transaction.category === category) &&
+      (type === '' || transaction.type === type),
+  );
+
+  const transactionCount = filteredTransactions.length;
 
   return (
     <section className="transaction-list">
@@ -68,10 +90,11 @@ function TransactionList({ transactions }) {
         <div className="transaction-list-header">
           <h4>Transactions</h4>
           <button type="button">View All</button>
+          <p>{transactionCount}</p>
         </div>
 
         <div className="transaction-list-items">
-          {filterSearch.map((transaction) => (
+          {filteredTransactions.map((transaction) => (
             <TransactionItem transaction={transaction} key={transaction.id} />
           ))}
         </div>
