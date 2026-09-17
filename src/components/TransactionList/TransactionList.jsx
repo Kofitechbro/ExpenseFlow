@@ -53,6 +53,12 @@ const filteredTransactions = transactions.filter((transaction) => {
 
   const transactionCount = filteredTransactions.length;
 
+  function resetFilters() {
+    setSearch('');
+    setCategory('');
+    setType('');
+  }
+
   return (
     <section className="transaction-list">
       <div className="transaction-list-controls">
@@ -84,6 +90,10 @@ const filteredTransactions = transactions.filter((transaction) => {
           <option value="Income">Income</option>
           <option value="Expense">Expense</option>
         </select>
+
+        <button type="button" onClick={resetFilters} className="reset">
+          Reset
+        </button>
       </div>
 
       <div className="transaction-list-info">
