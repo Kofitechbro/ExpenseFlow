@@ -98,15 +98,21 @@ const filteredTransactions = transactions.filter((transaction) => {
 
       <div className="transaction-list-info">
         <div className="transaction-list-header">
-          <h4>Transactions</h4>
+          <div className="transaction-list-title">
+            <h4>Transactions</h4>
+            <p>{transactionCount}</p>
+          </div>
           <button type="button">View All</button>
-          <p>{transactionCount}</p>
         </div>
 
         <div className="transaction-list-items">
-          {filteredTransactions.map((transaction) => (
-            <TransactionItem transaction={transaction} key={transaction.id} />
-          ))}
+          {filteredTransactions.length === 0 ? (
+            <p className='no-transaction'>No Transaction Found</p>
+          ) : (
+            filteredTransactions.map((transaction) => (
+              <TransactionItem transaction={transaction} key={transaction.id} />
+            ))
+          )}
         </div>
       </div>
     </section>

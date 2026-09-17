@@ -41,11 +41,25 @@
   font: inherit;
 }
 
-.transaction-list-info {
+.transaction-list-controls .reset {
+  padding: 0.5rem 1rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+
   background-color: var(--color-surface);
-  /* border: 1px solid var(--color-border); */
-  border-radius: 1rem;
-  /* box-shadow: var(--shadow); */
+  color: var(--color-text);
+
+  cursor: pointer;
+  font: inherit;
+
+  transition:
+    opacity 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.transaction-list-controls .reset:hover {
+  background-color: var(--color-background);
 }
 
 .transaction-list-header {
@@ -71,6 +85,27 @@
 
 .transaction-list-header button:hover {
   opacity: 0.7;
+}
+
+.transaction-list-title {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.transaction-list-title p {
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  background-color: var(--color-background);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.transaction-list-info {
+  background-color: var(--color-surface);
+  /* border: 1px solid var(--color-border); */
+  border-radius: 1rem;
+  /* box-shadow: var(--shadow); */
 }
 
 .transaction-card {
@@ -119,4 +154,12 @@
 
 .transaction-expense {
   color: var(--color-red);
+}
+
+
+.no-transaction {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-weight: 600;
 }
