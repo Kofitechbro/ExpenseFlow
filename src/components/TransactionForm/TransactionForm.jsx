@@ -2,6 +2,15 @@ import { useState } from 'react';
 import './TransactionForm.css';
 
 function TransactionForm({ onAddTransaction }) {
+  const [error, setError] = useState({
+    type: '',
+    description: '',
+    amount: '',
+    category: '',
+    date: '',
+    paymentMethod: '',
+  });
+
   const [formData, setFormData] = useState({
     type: '',
     description: '',
@@ -16,6 +25,11 @@ function TransactionForm({ onAddTransaction }) {
       ...formData,
       type,
     });
+
+    setError({
+      ...error,
+      type: '',
+    });
   }
 
   function handleChange(event) {
@@ -23,10 +37,63 @@ function TransactionForm({ onAddTransaction }) {
       ...formData,
       [event.target.name]: event.target.value,
     });
+
+    setError({
+      ...error,
+      [event.target.name]: '',
+    });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (formData.type.trim() === '') {
+      setError({
+        ...error,
+        type: 'Please select a transaction type.',
+      });
+      return;
+    }
+
+    if (formData.description.trim() === '') {
+      setError({
+        ...error,
+        description: 'Please enter a description.',
+      });
+      return;
+    }
+
+    if (formData.amount.trim() === '') {
+      setError({
+        ...error,
+        amount: 'Please enter an amount.',
+      });
+      return;
+    }
+
+    if (formData.category.trim() === '') {
+      setError({
+        ...error,
+        category: 'Please select a category.',
+      });
+      return;
+    }
+
+    if (formData.date.trim() === '') {
+      setError({
+        ...error,
+        date: 'Please select a date.',
+      });
+      return;
+    }
+
+    if (formData.paymentMethod.trim() === '') {
+      setError({
+        ...error,
+        paymentMethod: 'Please select a payment method.',
+      });
+      return;
+    }
 
     const newTransaction = {
       ...formData,
@@ -35,6 +102,24 @@ function TransactionForm({ onAddTransaction }) {
     };
 
     onAddTransaction(newTransaction);
+
+    setFormData({
+      type: '',
+      description: '',
+      amount: '',
+      category: '',
+      date: '',
+      paymentMethod: '',
+    });
+
+    setError({
+      type: '',
+      description: '',
+      amount: '',
+      category: '',
+      date: '',
+      paymentMethod: '',
+    });
   }
 
   return (
@@ -42,7 +127,9 @@ function TransactionForm({ onAddTransaction }) {
       <h2>Add Transaction</h2>
       <div className="toggle-type">
         <label htmlFor="type">Type</label>
-        <div className="toggle-type-button">
+        <div
+          className={`toggle-type-button ${error.type ? 'border-error' : ''}`}
+        >
           <button
             type="button"
             onClick={() => handleTypeChange('Expense')}
@@ -58,6 +145,7 @@ function TransactionForm({ onAddTransaction }) {
             Income
           </button>
         </div>
+        {error.type && <p className="error-text">{error.type}</p>}
       </div>
 
       <div className="description">
@@ -67,8 +155,10 @@ function TransactionForm({ onAddTransaction }) {
           onChange={handleChange}
           id="description"
           name="description"
-          rows={3}
+          rows={2}
+          className={`${error.description ? 'border-error' : ''}`}
         ></textarea>
+        {error.description && <p className="error-text">{error.description}</p>}
       </div>
 
       <div className="amount">
@@ -79,7 +169,9 @@ function TransactionForm({ onAddTransaction }) {
           type="number"
           id="amount"
           name="amount"
+          className={`${error.amount ? 'border-error' : ''}`}
         />
+        {error.amount && <p className="error-text">{error.amount}</p>}
       </div>
 
       <div className="category">
@@ -89,6 +181,7 @@ function TransactionForm({ onAddTransaction }) {
           onChange={handleChange}
           id="category"
           name="category"
+          className={`${error.category ? 'border-error' : ''}`}
         >
           <option value="" disabled>
             Select a Category
@@ -102,6 +195,7 @@ function TransactionForm({ onAddTransaction }) {
           <option value="Freelance">Freelance</option>
           <option value="Gift">Gift</option>
         </select>
+        {error.category && <p className="error-text">{error.category}</p>}
       </div>
 
       <div className="date">
@@ -112,10 +206,14 @@ function TransactionForm({ onAddTransaction }) {
           type="date"
           id="date"
           name="date"
+          className={`${error.date ? 'border-error' : ''}`}
         />
+        {error.date && <p className="error-text">{error.date}</p>}
       </div>
 
-      <fieldset className="paymentMethod">
+      <fieldset
+        className={`paymentMethod ${error.paymentMethod ? 'border-error' : ''}`}
+      >
         <legend>Payment Method</legend>
 
         <div className="payment-option">
@@ -152,6 +250,9 @@ function TransactionForm({ onAddTransaction }) {
             Cash
           </label>
         </div>
+        {error.paymentMethod && (
+          <p className="error-text">{error.paymentMethod}</p>
+        )}
       </fieldset>
 
       <button type="submit">Add Transaction</button>
