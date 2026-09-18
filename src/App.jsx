@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import SummaryCards from './components/SummaryCards/SummaryCards';
 import TransactionList from './components/TransactionList/TransactionList';
+import TransactionForm from './components/TransactionForm/TransactionForm';
 
 function App() {
   const [transactions, setTransactions] = useState([
@@ -47,12 +48,17 @@ function App() {
     },
   ]);
 
+  function handleAddTransaction(transaction) {
+    setTransactions([...transactions, transaction]);
+  }
+
   return (
     <div className="App">
       <Header />
       <main>
         <SummaryCards transactions={transactions} />
         <TransactionList transactions={transactions} />
+        <TransactionForm onAddTransaction={handleAddTransaction}/>
       </main>
     </div>
   );
