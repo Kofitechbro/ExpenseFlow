@@ -9,3 +9,10 @@ main h1 {
   margin-bottom: 1rem;
   color: var(--color-text);
 }
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: start;
+  gap: 1.5rem;
+}

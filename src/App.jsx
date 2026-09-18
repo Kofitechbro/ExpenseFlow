@@ -57,8 +57,10 @@ function App() {
       <Header />
       <main>
         <SummaryCards transactions={transactions} />
-        <TransactionList transactions={transactions} />
-        <TransactionForm onAddTransaction={handleAddTransaction}/>
+        <section className="dashboard-content">
+          <TransactionList transactions={transactions} />
+          <TransactionForm onAddTransaction={handleAddTransaction} />
+        </section>
       </main>
     </div>
   );
