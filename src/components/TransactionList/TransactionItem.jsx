@@ -1,4 +1,4 @@
-function TransactionItem({ transaction }) {
+function TransactionItem({ transaction, onDeleteTransaction }) {
   const amount = transaction.amount;
   const formattedAmount = amount.toLocaleString('en-GH', {
     minimumFractionDigits: 2,
@@ -37,6 +37,10 @@ function TransactionItem({ transaction }) {
       <div className="transaction-date">
         <span>{formattedDate}</span>
       </div>
+
+      <button type="button" onClick={() => onDeleteTransaction(transaction.id)}>
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
     </div>
   );
 }

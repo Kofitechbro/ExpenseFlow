@@ -52,13 +52,22 @@ function App() {
     setTransactions([...transactions, transaction]);
   }
 
+  function handleDeleteTransaction(id) {
+    setTransactions(
+      transactions.filter((transaction) => transaction.id !== id),
+    );
+  }
+
   return (
     <div className="App">
       <Header />
       <main>
         <SummaryCards transactions={transactions} />
         <section className="dashboard-content">
-          <TransactionList transactions={transactions} />
+          <TransactionList
+            transactions={transactions}
+            onDeleteTransaction={handleDeleteTransaction}
+          />
           <TransactionForm onAddTransaction={handleAddTransaction} />
         </section>
       </main>

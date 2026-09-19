@@ -2,7 +2,7 @@ import './TransactionList.css';
 import TransactionItem from './TransactionItem';
 import { useState } from 'react';
 
-function TransactionList({ transactions }) {
+function TransactionList({ transactions, onDeleteTransaction}) {
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
   const [search, setSearch] = useState('');
@@ -110,7 +110,7 @@ const filteredTransactions = transactions.filter((transaction) => {
             <p className='no-transaction'>No Transaction Found</p>
           ) : (
             filteredTransactions.map((transaction) => (
-              <TransactionItem transaction={transaction} key={transaction.id} />
+              <TransactionItem transaction={transaction} onDeleteTransaction={onDeleteTransaction} key={transaction.id} />
             ))
           )}
         </div>

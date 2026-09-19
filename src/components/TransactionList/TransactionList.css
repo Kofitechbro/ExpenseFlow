@@ -110,7 +110,7 @@
 
 .transaction-card {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
   align-items: center;
   gap: 1rem;
 
@@ -156,10 +156,28 @@
   color: var(--color-red);
 }
 
-
 .no-transaction {
   padding: 3rem 1rem;
   text-align: center;
   color: var(--color-text-muted);
   font-weight: 600;
+}
+
+.transaction-card button {
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.transaction-card button:hover {
+  background-color: var(--color-red-light);
+  color: var(--color-red);
 }
