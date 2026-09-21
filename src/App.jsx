@@ -6,6 +6,7 @@ import TransactionList from './components/TransactionList/TransactionList';
 import TransactionForm from './components/TransactionForm/TransactionForm';
 
 function App() {
+  const [editingTransaction, setEditingTransaction] = useState(null);
   const [transactions, setTransactions] = useState([
     {
       id: 1,
@@ -58,6 +59,28 @@ function App() {
     );
   }
 
+  function handleEditTransaction(transaction) {
+    setEditingTransaction(transaction);
+  }
+
+  function handleUpdateTransaction(updatedTransaction) {
+    setTransactions(
+      transactions.map((transaction) => {
+        if (transaction.id === updatedTransaction.id) {
+          return updatedTransaction;
+        }
+
+        return transaction;
+      }),
+    );
+
+    setEditingTransaction(null);
+  }
+
+  function handleCancelEdit() {
+    setEditingTransaction(null);
+  }
+
   return (
     <div className="App">
       <Header />
@@ -67,8 +90,14 @@ function App() {
           <TransactionList
             transactions={transactions}
             onDeleteTransaction={handleDeleteTransaction}
+            onEditTransaction={handleEditTransaction}
           />
-          <TransactionForm onAddTransaction={handleAddTransaction} />
+          <TransactionForm
+            onAddTransaction={handleAddTransaction}
+            editingTransaction={editingTransaction}
+            onUpdateTransaction={handleUpdateTransaction}
+            onCancelEdit={handleCancelEdit}
+          />
         </section>
       </main>
     </div>

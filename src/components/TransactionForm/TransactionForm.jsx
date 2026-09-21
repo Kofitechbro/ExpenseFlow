@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './TransactionForm.css';
 
-function TransactionForm({ onAddTransaction }) {
+function TransactionForm({
+  onAddTransaction,
+  editingTransaction,
+  onUpdateTransaction,
+  onCancelEdit,
+}) {
   const [error, setError] = useState({
     type: '',
     description: '',
@@ -19,6 +24,28 @@ function TransactionForm({ onAddTransaction }) {
     date: '',
     paymentMethod: '',
   });
+
+  useEffect(() => {
+    if (editingTransaction !== null) {
+      setFormData({
+        type: editingTransaction.type,
+        description: editingTransaction.description,
+        amount: String(editingTransaction.amount),
+        category: editingTransaction.category,
+        date: editingTransaction.date,
+        paymentMethod: editingTransaction.paymentMethod,
+      });
+    } else {
+      setFormData({
+        type: '',
+        description: '',
+        amount: '',
+        category: '',
+        date: '',
+        paymentMethod: '',
+      });
+    }
+  }, [editingTransaction]);
 
   function handleTypeChange(type) {
     setFormData({
@@ -95,13 +122,23 @@ function TransactionForm({ onAddTransaction }) {
       return;
     }
 
-    const newTransaction = {
-      ...formData,
-      id: Date.now(),
-      amount: Number(formData.amount),
-    };
+    if (editingTransaction !== null) {
+      const updatedTransaction = {
+        ...formData,
+        id: editingTransaction.id,
+        amount: Number(formData.amount),
+      };
 
-    onAddTransaction(newTransaction);
+      onUpdateTransaction(updatedTransaction);
+    } else {
+      const newTransaction = {
+        ...formData,
+        id: Date.now(),
+        amount: Number(formData.amount),
+      };
+
+      onAddTransaction(newTransaction);
+    }
 
     setFormData({
       type: '',
@@ -124,7 +161,7 @@ function TransactionForm({ onAddTransaction }) {
 
   return (
     <form className="transaction-form" onSubmit={handleSubmit}>
-      <h2>Add Transaction</h2>
+      <h2>{editingTransaction ? 'Edit Transaction' : 'Add Transaction'}</h2>
       <div className="toggle-type">
         <label htmlFor="type">Type</label>
         <div
@@ -255,7 +292,14 @@ function TransactionForm({ onAddTransaction }) {
         )}
       </fieldset>
 
-      <button type="submit">Add Transaction</button>
+      <button type="submit">
+        {editingTransaction ? 'Save Changes' : 'Add Transaction'}
+      </button>
+      {editingTransaction !== null && (
+        <button type="button" onClick={onCancelEdit}>
+          Cancel
+        </button>
+      )}
     </form>
   );
 }

@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-function TransactionItem({ transaction, onDeleteTransaction }) {
+function TransactionItem({
+  transaction,
+  onDeleteTransaction,
+  onEditTransaction,
+}) {
   const [showConfirm, setShowConfirm] = useState(false);
 
   const amount = transaction.amount;
@@ -46,7 +50,12 @@ function TransactionItem({ transaction, onDeleteTransaction }) {
         <button type="button" onClick={() => setShowConfirm(true)}>
           <i className="fa-solid fa-trash-can"></i>
         </button>
+
+        <button type="button" onClick={() => onEditTransaction(transaction)}>
+          <i className="fa-regular fa-pen-to-square"></i>
+        </button>
       </div>
+
       {showConfirm && (
         <div className="delete-confirmation">
           <p>Are you sure you want to delete this transaction?</p>
