@@ -98,21 +98,45 @@
   cursor: pointer;
 }
 
-.transaction-form button[type='submit'] {
-  width: 100%;
+.transaction-form-actions {
+  display: flex;
+  gap: 1rem;
+  /* margin-top: 0.5rem; */
+}
+
+.transaction-form-actions button {
   padding: 0.75rem 1rem;
-  border: none;
+
   border-radius: 0.5rem;
-  background-color: var(--color-surface-dim);
-  color: var(--color-surface);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition:
+    0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.transaction-form-actions button[type='submit'] {
+  flex: 1;
+  border: 1px solid transparent;
+  background-color: var(--color-surface-dim);
+  color: var(--color-surface);
 }
 
 .transaction-form button[type='submit']:hover {
   opacity: 0.8;
+}
+
+.transaction-form-actions button[type='button'] {
+  flex: 1;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+.transaction-form-actions button[type='button']:hover {
+  background-color: var(--color-background);
 }
 
 .transaction-form .error-text {

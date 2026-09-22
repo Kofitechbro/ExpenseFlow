@@ -292,14 +292,16 @@ function TransactionForm({
         )}
       </fieldset>
 
-      <button type="submit">
-        {editingTransaction ? 'Save Changes' : 'Add Transaction'}
-      </button>
-      {editingTransaction !== null && (
-        <button type="button" onClick={onCancelEdit}>
-          Cancel
+      <div className="transaction-form-actions">
+        <button type="submit">
+          {editingTransaction ? 'Save Changes' : 'Add Transaction'}
         </button>
-      )}
+        {editingTransaction !== null && (
+          <button type="button" onClick={onCancelEdit}>
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }
