@@ -6,6 +6,7 @@ function TransactionItem({
   onEditTransaction,
 }) {
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const amount = transaction.amount;
   const formattedAmount = amount.toLocaleString('en-GH', {
@@ -47,13 +48,49 @@ function TransactionItem({
           <span>{formattedDate}</span>
         </div>
 
-        <button type="button" onClick={() => setShowConfirm(true)}>
-          <i className="fa-solid fa-trash-can"></i>
-        </button>
+        <div className="transaction-actions">
+          <button
+            className="transaction-actions-button"
+            type="button"
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
+            <i className="fa-solid fa-ellipsis-vertical"></i>
+          </button>
 
-        <button type="button" onClick={() => onEditTransaction(transaction)}>
-          <i className="fa-regular fa-pen-to-square"></i>
-        </button>
+          {isOpen && (
+            <div className="transaction-actions-menu">
+              <div className="transaction-action">
+                <button
+                  className="transaction-action-edit"
+                  onClick={() => {
+                    onEditTransaction(transaction);
+                    setIsOpen(false);
+                  }}
+                  type="button"
+                >
+                  <i className="fa-regular fa-pen-to-square"></i>
+                </button>
+                <span className="transaction-tooltip">Edit</span>
+              </div>
+
+              <div className="transaction-action">
+                <button
+                  className="transaction-action-delete"
+                  type="button"
+                  onClick={() => {
+                    setShowConfirm(true);
+                    setIsOpen(false);
+                  }}
+                >
+                  <i className="fa-solid fa-trash-can"></i>
+                </button>
+                <span className="transaction-tooltip">Delete</span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {showConfirm && (
@@ -62,7 +99,10 @@ function TransactionItem({
           <div className="delete-confirmation-actions">
             <button
               className="delete-cancel"
-              onClick={() => setShowConfirm(false)}
+              onClick={() => {
+                setShowConfirm(false);
+                setIsOpen(false);
+              }}
             >
               Cancel
             </button>
