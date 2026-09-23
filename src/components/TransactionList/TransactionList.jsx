@@ -7,9 +7,10 @@ function TransactionList({
   onDeleteTransaction,
   onEditTransaction,
 }) {
+  const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
-  const [search, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState('');
 
   /*
   const filteredCategory = transactions.filter(
@@ -48,19 +49,38 @@ const filteredTransactions = transactions.filter((transaction) => {
   const filteredTransactions = transactions.filter(
     (transaction) =>
       (search === '' ||
-        transaction.description.toLowerCase().includes(search.toLowerCase()) ||
-        transaction.category.toLowerCase().includes(search.toLowerCase()) ||
-        transaction.type.toLowerCase().includes(search.toLowerCase())) &&
+        transaction.description.toLowerCase().includes(searchTerm) ||
+        transaction.category.toLowerCase().includes(searchTerm) ||
+        transaction.type.toLowerCase().includes(searchTerm)) &&
       (category === '' || transaction.category === category) &&
       (type === '' || transaction.type === type),
   );
 
   const transactionCount = filteredTransactions.length;
 
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+    if (sortBy === 'newest') {
+      return b.date.localeCompare(a.date);
+    }
+
+    if (sortBy === 'oldest') {
+      return a.date.localeCompare(b.date);
+    }
+
+    if (sortBy === 'highestAmount') {
+      return b.amount - a.amount;
+    }
+
+    if (sortBy === 'lowestAmount') {
+      return a.amount - b.amount;
+    }
+  });
+
   function resetFilters() {
     setSearch('');
     setCategory('');
     setType('');
+    setSortBy('');
   }
 
   return (
@@ -95,6 +115,16 @@ const filteredTransactions = transactions.filter((transaction) => {
           <option value="Expense">Expense</option>
         </select>
 
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="" disabled>
+            Sort By
+          </option>
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="highestAmount">Highest Amount</option>
+          <option value="lowestAmount">Lowest Amount</option>
+        </select>
+
         <button type="button" onClick={resetFilters} className="reset">
           Reset
         </button>
@@ -110,10 +140,10 @@ const filteredTransactions = transactions.filter((transaction) => {
         </div>
 
         <div className="transaction-list-items">
-          {filteredTransactions.length === 0 ? (
+          {sortedTransactions.length === 0 ? (
             <p className="no-transaction">No Transaction Found</p>
           ) : (
-            filteredTransactions.map((transaction) => (
+            sortedTransactions.map((transaction) => (
               <TransactionItem
                 transaction={transaction}
                 onDeleteTransaction={onDeleteTransaction}
