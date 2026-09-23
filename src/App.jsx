@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+import Budget from './pages/Budget/Budget';
+import Currency from './pages/Currency/Currency';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Transactions from './pages/Transactions/Transactions';
+
 import './App.css';
 import Header from './components/Header/Header';
-import SummaryCards from './components/SummaryCards/SummaryCards';
-import TransactionList from './components/TransactionList/TransactionList';
-import TransactionForm from './components/TransactionForm/TransactionForm';
 
 function App() {
   const [editingTransaction, setEditingTransaction] = useState(null);
@@ -84,24 +88,36 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <main>
-        <SummaryCards transactions={transactions} />
-        <section className="dashboard-content">
-          <TransactionList
-            transactions={transactions}
-            onDeleteTransaction={handleDeleteTransaction}
-            onEditTransaction={handleEditTransaction}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Dashboard
+                transactions={transactions}
+                onDeleteTransaction={handleDeleteTransaction}
+                onEditTransaction={handleEditTransaction}
+                onAddTransaction={handleAddTransaction}
+                editingTransaction={editingTransaction}
+                onUpdateTransaction={handleUpdateTransaction}
+                onCancelEdit={handleCancelEdit}
+              />
+            }
           />
-          <TransactionForm
-            onAddTransaction={handleAddTransaction}
-            editingTransaction={editingTransaction}
-            onUpdateTransaction={handleUpdateTransaction}
-            onCancelEdit={handleCancelEdit}
-          />
-        </section>
-      </main>
+          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/budget" element={<Budget />} />
+          <Route path="/currency" element={<Currency />} />
+        </Routes>
+      
     </div>
   );
 }
 
 export default App;
+
+
+
+
+
+
+
+///
