@@ -1,6 +1,7 @@
 import './TransactionList.css';
 import TransactionItem from './TransactionItem';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function TransactionList({
   transactions,
@@ -136,7 +137,7 @@ const filteredTransactions = transactions.filter((transaction) => {
             <h4>Transactions</h4>
             <p>{transactionCount}</p>
           </div>
-          <button type="button">View All</button>
+          <Link to="/transactions">View All</Link>
         </div>
 
         <div className="transaction-list-items">

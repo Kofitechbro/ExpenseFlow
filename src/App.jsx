@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Budget from './pages/Budget/Budget';
 import Currency from './pages/Currency/Currency';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Transactions from './pages/Transactions/Transactions';
+import TransactionFormPage from './pages/TransactionForm/TransactionFormPage';
 
 import './App.css';
 import Header from './components/Header/Header';
 
 function App() {
   const [editingTransaction, setEditingTransaction] = useState(null);
+  const navigate = useNavigate();
+
   const [transactions, setTransactions] = useState([
     {
       id: 1,
@@ -65,6 +69,7 @@ function App() {
 
   function handleEditTransaction(transaction) {
     setEditingTransaction(transaction);
+    navigate(`/transactions/${transaction.id}/edit`)
   }
 
   function handleUpdateTransaction(updatedTransaction) {
@@ -88,26 +93,40 @@ function App() {
   return (
     <div className="App">
       <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Dashboard
-                transactions={transactions}
-                onDeleteTransaction={handleDeleteTransaction}
-                onEditTransaction={handleEditTransaction}
-                onAddTransaction={handleAddTransaction}
-                editingTransaction={editingTransaction}
-                onUpdateTransaction={handleUpdateTransaction}
-                onCancelEdit={handleCancelEdit}
-              />
-            }
-          />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/budget" element={<Budget />} />
-          <Route path="/currency" element={<Currency />} />
-        </Routes>
-      
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Dashboard
+              transactions={transactions}
+              onDeleteTransaction={handleDeleteTransaction}
+              onEditTransaction={handleEditTransaction}
+            />
+          }
+        />
+        <Route
+          path="/transactions"
+          element={
+            <Transactions
+              transactions={transactions}
+              onDeleteTransaction={handleDeleteTransaction}
+              onEditTransaction={handleEditTransaction}
+            />
+          }
+        />
+        <Route path="/budget" element={<Budget />} />
+        <Route path="/currency" element={<Currency />} />
+        <Route
+          path="/transactions/:id/edit"
+          element={
+            <TransactionFormPage
+              editingTransaction={editingTransaction}
+              onUpdateTransaction={handleUpdateTransaction}
+              onCancelEdit={handleCancelEdit}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }

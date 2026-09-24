@@ -1,5 +1,17 @@
-function Transactions() {
-  return <h1>Transactions</h1>;
+import TransactionList from '../../components/TransactionList/TransactionList';
+
+function Transactions({
+  transactions,
+  onDeleteTransaction,
+  onEditTransaction,
+}) {
+  return (
+    <TransactionList
+      transactions={transactions}
+      onDeleteTransaction={onDeleteTransaction}
+      onEditTransaction={onEditTransaction}
+    />
+  );
 }
 
 export default Transactions;
