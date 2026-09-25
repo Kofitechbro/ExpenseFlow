@@ -69,7 +69,7 @@ function App() {
 
   function handleEditTransaction(transaction) {
     setEditingTransaction(transaction);
-    navigate(`/transactions/${transaction.id}/edit`)
+    navigate(`/transactions/${transaction.id}/edit`);
   }
 
   function handleUpdateTransaction(updatedTransaction) {
@@ -84,10 +84,12 @@ function App() {
     );
 
     setEditingTransaction(null);
+    navigate('/');
   }
 
   function handleCancelEdit() {
     setEditingTransaction(null);
+    navigate('/');
   }
 
   return (
