@@ -120,6 +120,17 @@ function App() {
         <Route path="/budget" element={<Budget />} />
         <Route path="/currency" element={<Currency />} />
         <Route
+          path="/transactions/new"
+          element={
+            <TransactionFormPage
+              onAddTransaction={handleAddTransaction}
+              editingTransaction={editingTransaction}
+              onUpdateTransaction={handleUpdateTransaction}
+              onCancelEdit={handleCancelEdit}
+            />
+          }
+        />
+        <Route
           path="/transactions/:id/edit"
           element={
             <TransactionFormPage
