@@ -1,5 +1,6 @@
 import SummaryCards from '../../components/SummaryCards/SummaryCards';
 import TransactionList from '../../components/TransactionList/TransactionList';
+import FloatingAddButton from '../../components/FloatingAddButton/FloatingAddButton';
 
 function Dashboard({ transactions, onDeleteTransaction, onEditTransaction }) {
   return (
@@ -11,6 +12,8 @@ function Dashboard({ transactions, onDeleteTransaction, onEditTransaction }) {
         onDeleteTransaction={onDeleteTransaction}
         onEditTransaction={onEditTransaction}
       />
+
+      <FloatingAddButton />
     </main>
   );
 }

@@ -59,6 +59,7 @@ function App() {
 
   function handleAddTransaction(transaction) {
     setTransactions([...transactions, transaction]);
+    navigate('/');
   }
 
   function handleDeleteTransaction(id) {
@@ -122,6 +123,7 @@ function App() {
           path="/transactions/:id/edit"
           element={
             <TransactionFormPage
+              onAddTransaction={handleAddTransaction}
               editingTransaction={editingTransaction}
               onUpdateTransaction={handleUpdateTransaction}
               onCancelEdit={handleCancelEdit}
