@@ -2,6 +2,7 @@ import './TransactionList.css';
 import TransactionItem from './TransactionItem';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import TransactionSearch from '../../features/transaction/search/TransactionSearch';
 
 function TransactionList({
   transactions,
@@ -85,17 +86,15 @@ const filteredTransactions = transactions.filter((transaction) => {
   }
 
   const hasNoTransactions = transactions.length === 0;
-  const hasNoMatchingTransactions = transactions.length > 0 && sortedTransactions.length === 0
+  const hasNoMatchingTransactions =
+    transactions.length > 0 && sortedTransactions.length === 0;
 
   return (
     <section className="transaction-list">
       <div className="transaction-list-controls">
-        <input
-          type="text"
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search transaction"
+        <TransactionSearch
+          search={search}
+          onSearchChange={(e) => setSearch(e.target.value)}
         />
 
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
