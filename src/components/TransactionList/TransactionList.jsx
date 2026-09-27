@@ -84,6 +84,9 @@ const filteredTransactions = transactions.filter((transaction) => {
     setSortBy('');
   }
 
+  const hasNoTransactions = transactions.length === 0;
+  const hasNoMatchingTransactions = transactions.length > 0 && sortedTransactions.length === 0
+
   return (
     <section className="transaction-list">
       <div className="transaction-list-controls">
@@ -141,8 +144,19 @@ const filteredTransactions = transactions.filter((transaction) => {
         </div>
 
         <div className="transaction-list-items">
-          {sortedTransactions.length === 0 ? (
-            <p className="no-transaction">No Transaction Found</p>
+          {hasNoTransactions ? (
+            <div className="no-transaction">
+              <h4>No transactions available</h4>
+              <p>
+                Start tracking your income and expenses by adding your first
+                transaction.
+              </p>
+            </div>
+          ) : hasNoMatchingTransactions ? (
+            <div className="no-transaction">
+              <h4>No Transaction Found</h4>
+              <p>Try changing your search or filters.</p>
+            </div>
           ) : (
             sortedTransactions.map((transaction) => (
               <TransactionItem

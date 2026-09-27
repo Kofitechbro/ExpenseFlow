@@ -157,10 +157,16 @@
 }
 
 .no-transaction {
-  padding: 3rem 1rem;
+  padding: 3rem;
   text-align: center;
+  color: var(--color-text);
+  /* font-weight: 600; */
+}
+
+.no-transaction p {
+  font-size: 0.875rem;
   color: var(--color-text-muted);
-  font-weight: 600;
+  margin-top: 0.5rem;
 }
 
 .transaction-actions {
@@ -207,6 +213,8 @@
 
   z-index: 10;
 }
+
+no-transaction
 
 .transaction-actions-menu button {
   padding: 0.25rem;
