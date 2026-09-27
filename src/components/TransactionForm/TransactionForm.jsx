@@ -26,7 +26,7 @@ function TransactionForm({
   });
 
   useEffect(() => {
-    if (editingTransaction !== null) {
+    if (editingTransaction) {
       setFormData({
         type: editingTransaction.type,
         description: editingTransaction.description,
@@ -122,7 +122,7 @@ function TransactionForm({
       return;
     }
 
-    if (editingTransaction !== null) {
+    if (editingTransaction) {
       const updatedTransaction = {
         ...formData,
         id: editingTransaction.id,
@@ -296,7 +296,7 @@ function TransactionForm({
         <button type="submit">
           {editingTransaction ? 'Save Changes' : 'Add Transaction'}
         </button>
-        {editingTransaction !== null && (
+        {editingTransaction && (
           <button type="button" onClick={onCancelEdit}>
             Cancel
           </button>
