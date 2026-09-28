@@ -1,9 +1,12 @@
 import './TransactionList.css';
-import TransactionItem from './TransactionItem';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import TransactionItem from './TransactionItem';
 import TransactionSearch from '../../features/transaction/search/TransactionSearch';
-import TransactionFiltersControls from '../../features/transaction/categoryType/TransactionFiltersControls';
+import CategoryFilter from '../../features/transaction/category/CategoryFilter';
+import TypeFilter from '../../features/transaction/type/TypeFilter';
+import TransactionSort from '../../features/transaction/sorting/TransactionSort';
+import TransactionReset from '../../features/transaction/reset/TransactionReset';
 
 function TransactionList({
   transactions,
@@ -98,26 +101,19 @@ const filteredTransactions = transactions.filter((transaction) => {
           onSearchChange={(e) => setSearch(e.target.value)}
         />
 
-        <TransactionFiltersControls
+        <CategoryFilter
           category={category}
           onCategoryChange={(e) => setCategory(e.target.value)}
-          type={type}
-          onTypeChange={(e) => setType(e.target.value)}
         />
 
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-          <option value="" disabled>
-            Sort By
-          </option>
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="highestAmount">Highest Amount</option>
-          <option value="lowestAmount">Lowest Amount</option>
-        </select>
+        <TypeFilter type={type} onTypeChange={(e) => setType(e.target.value)} />
 
-        <button type="button" onClick={resetFilters} className="reset">
-          Reset
-        </button>
+        <TransactionSort
+          sortBy={sortBy}
+          onSortByChange={(e) => setSortBy(e.target.value)}
+        />
+
+        <TransactionReset onReset={resetFilters} />
       </div>
 
       <div className="transaction-list-info">

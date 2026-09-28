@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 function TransactionSearch({ search, onSearchChange }) {
   return (
     <input
