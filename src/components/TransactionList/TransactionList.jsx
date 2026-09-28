@@ -3,6 +3,7 @@ import TransactionItem from './TransactionItem';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TransactionSearch from '../../features/transaction/search/TransactionSearch';
+import TransactionFiltersControls from '../../features/transaction/categoryType/TransactionFiltersControls';
 
 function TransactionList({
   transactions,
@@ -97,26 +98,12 @@ const filteredTransactions = transactions.filter((transaction) => {
           onSearchChange={(e) => setSearch(e.target.value)}
         />
 
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="" disabled>
-            Select a Category
-          </option>
-          <option value="Health">Health</option>
-          <option value="Food & Drinks">Food & Drinks</option>
-          <option value="Transportation">Transportation</option>
-          <option value="Shopping">Shopping</option>
-          <option value="Bills & Utilities">Bills & Utilities</option>
-          <option value="Salary">Salary</option>
-          <option value="Freelance">Freelance</option>
-        </select>
-
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="" disabled>
-            Type
-          </option>
-          <option value="Income">Income</option>
-          <option value="Expense">Expense</option>
-        </select>
+        <TransactionFiltersControls
+          category={category}
+          onCategoryChange={(e) => setCategory(e.target.value)}
+          type={type}
+          onTypeChange={(e) => setType(e.target.value)}
+        />
 
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="" disabled>
