@@ -1,0 +1,27 @@
+.load-more {
+  text-align: center;
+}
+
+.load-more-button {
+  margin: 1.5rem 0;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.load-more-button:hover {
+  background-color: var(--color-surface-dim);
+  color: var(--color-surface);
+  border-color: var(--color-border);
+}
