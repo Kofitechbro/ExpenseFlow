@@ -10,6 +10,7 @@ function Transactions({
       transactions={transactions}
       onDeleteTransaction={onDeleteTransaction}
       onEditTransaction={onEditTransaction}
+      showViewAll={false}
     />
   );
 }

@@ -12,6 +12,7 @@ function TransactionList({
   transactions,
   onDeleteTransaction,
   onEditTransaction,
+  showViewAll,
 }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
@@ -122,7 +123,11 @@ const filteredTransactions = transactions.filter((transaction) => {
             <h4>Transactions</h4>
             <p>{transactionCount}</p>
           </div>
-          <Link to="/transactions">View All</Link>
+          {showViewAll && (
+            <Link className="view-all" to="/transactions">
+              View All
+            </Link>
+          )}
         </div>
 
         <div className="transaction-list-items">
