@@ -101,6 +101,7 @@ const filteredTransactions = transactions.filter((transaction) => {
           search={search}
           onSearchChange={(e) => setSearch(e.target.value)}
         />
+<div className="transaction-list-controls-filters">
 
         <CategoryFilter
           category={category}
@@ -115,6 +116,7 @@ const filteredTransactions = transactions.filter((transaction) => {
         />
 
         <TransactionReset onReset={resetFilters} />
+</div>
       </div>
 
       <div className="transaction-list-info">

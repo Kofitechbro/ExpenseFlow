@@ -9,57 +9,53 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-
+  flex-wrap: wrap;
   padding: 1rem;
   border-radius: 0.75rem;
   border-bottom: 1px solid var(--color-border);
-  /* box-shadow: var(--shadow); */
+}
+
+.transaction-list-controls-filters {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .transaction-list-controls input {
   flex: 1;
-  padding: 0.5rem 1rem;
-
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-
-  font: inherit;
-  color: var(--color-text);
-  background-color: var(--color-surface);
 }
 
-.transaction-list-controls select {
+.transaction-list-controls input,
+.transaction-list-controls select,
+.transaction-list-controls .reset {
+  flex: 1;
   padding: 0.5rem 1rem;
-
   border: 1px solid var(--color-border);
   border-radius: 0.5rem;
-
   background-color: var(--color-surface);
   color: var(--color-text);
-
   cursor: pointer;
   font: inherit;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.transaction-list-controls input:focus,
+.transaction-list-controls select:focus {
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 2px var(--color-border);
 }
 
 .transaction-list-controls .reset {
-  padding: 0.5rem 1rem;
-
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-
-  background-color: var(--color-surface);
-  color: var(--color-text);
-
-  cursor: pointer;
-  font: inherit;
-
-  transition:
-    opacity 0.2s ease,
-    background-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .transaction-list-controls .reset:hover {
   background-color: var(--color-background);
+  border-color: var(--color-text-muted);
 }
 
 .transaction-list-header {
