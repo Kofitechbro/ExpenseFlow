@@ -165,6 +165,27 @@
   margin-top: 0.5rem;
 }
 
+.add-transaction-link {
+  margin-top: 1rem;
+  display: inline-block;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.add-transaction-link:hover {
+  background-color: var(--color-surface-dim);
+  color: var(--color-surface);
+}
+
 .transaction-actions {
   position: relative;
   display: flex;

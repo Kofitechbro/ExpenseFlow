@@ -122,8 +122,7 @@ const filteredTransactions = transactions.filter((transaction) => {
       <div className="transaction-list-info">
         <div className="transaction-list-header">
           <div className="transaction-list-title">
-            <h4>Transactions</h4>
-            <p>{transactionCount}</p>
+            <p>{transactionCount} Transactions</p>
           </div>
           {showViewAll && (
             <Link className="view-all" to="/transactions">
@@ -140,6 +139,9 @@ const filteredTransactions = transactions.filter((transaction) => {
                 Start tracking your income and expenses by adding your first
                 transaction.
               </p>
+              <Link to="/transactions/new" className="add-transaction-link">
+                Add Transaction
+              </Link>
             </div>
           ) : hasNoMatchingTransactions ? (
             <div className="no-transaction">
