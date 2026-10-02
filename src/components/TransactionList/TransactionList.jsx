@@ -63,8 +63,6 @@ const filteredTransactions = transactions.filter((transaction) => {
       (type === '' || transaction.type === type),
   );
 
-  const transactionCount = filteredTransactions.length;
-
   const sortedTransactions = [...filteredTransactions].sort((a, b) => {
     if (sortBy === 'newest') {
       return b.date.localeCompare(a.date);
@@ -90,6 +88,8 @@ const filteredTransactions = transactions.filter((transaction) => {
     setSortBy('');
   }
 
+  const transactionCount = filteredTransactions.length;
+  const totalTransactions = transactions.length;
   const hasNoTransactions = transactions.length === 0;
   const hasNoMatchingTransactions =
     transactions.length > 0 && sortedTransactions.length === 0;
@@ -101,28 +101,36 @@ const filteredTransactions = transactions.filter((transaction) => {
           search={search}
           onSearchChange={(e) => setSearch(e.target.value)}
         />
-<div className="transaction-list-controls-filters">
+        <div className="transaction-list-controls-filters">
+          <CategoryFilter
+            category={category}
+            onCategoryChange={(e) => setCategory(e.target.value)}
+          />
 
-        <CategoryFilter
-          category={category}
-          onCategoryChange={(e) => setCategory(e.target.value)}
-        />
+          <TypeFilter
+            type={type}
+            onTypeChange={(e) => setType(e.target.value)}
+          />
 
-        <TypeFilter type={type} onTypeChange={(e) => setType(e.target.value)} />
+          <TransactionSort
+            sortBy={sortBy}
+            onSortByChange={(e) => setSortBy(e.target.value)}
+          />
 
-        <TransactionSort
-          sortBy={sortBy}
-          onSortByChange={(e) => setSortBy(e.target.value)}
-        />
-
-        <TransactionReset onReset={resetFilters} />
-</div>
+          <TransactionReset onReset={resetFilters} />
+        </div>
       </div>
 
       <div className="transaction-list-info">
         <div className="transaction-list-header">
           <div className="transaction-list-title">
-            <p>{transactionCount} Transactions</p>
+            <p>
+              Transactions (
+              {transactionCount === totalTransactions
+                ? totalTransactions
+                : `${transactionCount} of ${totalTransactions}`}
+              )
+            </p>
           </div>
           {showViewAll && (
             <Link className="view-all" to="/transactions">
