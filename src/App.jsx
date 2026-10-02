@@ -13,10 +13,9 @@ import Header from './components/Header/Header';
 import initialTransactions from './data/transactions';
 
 function App() {
+  const [transactions, setTransactions] = useState(initialTransactions);
   const [editingTransaction, setEditingTransaction] = useState(null);
   const navigate = useNavigate();
-
-  const [transactions, setTransactions] = useState(initialTransactions);
 
   function handleAddTransaction(transaction) {
     setTransactions([...transactions, transaction]);
