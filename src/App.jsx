@@ -18,13 +18,13 @@ function App() {
   const navigate = useNavigate();
 
   function handleAddTransaction(transaction) {
-    setTransactions([...transactions, transaction]);
+    setTransactions((current) => [...current, transaction]);
     navigate('/');
   }
 
   function handleDeleteTransaction(id) {
-    setTransactions(
-      transactions.filter((transaction) => transaction.id !== id),
+    setTransactions((current) =>
+      current.filter((transactions) => transactions.id !== id),
     );
   }
 
@@ -34,12 +34,12 @@ function App() {
   }
 
   function handleUpdateTransaction(updatedTransaction) {
-    setTransactions(
-      transactions.map((transaction) => {
+    setTransactions((current) =>
+      current.map((transaction) => {
         if (transaction.id === updatedTransaction.id) {
           return updatedTransaction;
         }
-
+ 
         return transaction;
       }),
     );
@@ -82,9 +82,7 @@ function App() {
         <Route
           path="/transactions/new"
           element={
-            <TransactionFormPage
-              onAddTransaction={handleAddTransaction}
-            />
+            <TransactionFormPage onAddTransaction={handleAddTransaction} />
           }
         />
         <Route

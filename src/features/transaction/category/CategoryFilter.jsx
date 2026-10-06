@@ -10,6 +10,7 @@ function CategoryFilter({ category, onCategoryChange }) {
       <option value="Shopping">Shopping</option>
       <option value="Bills & Utilities">Bills & Utilities</option>
       <option value="Salary">Salary</option>
+      <option value="Gift">Gift</option>
       <option value="Freelance">Freelance</option>
     </select>
   );
