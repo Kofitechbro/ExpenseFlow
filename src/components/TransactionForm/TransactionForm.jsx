@@ -25,7 +25,9 @@ function TransactionForm({
     paymentMethod: '',
   });
 
+  // Populate form data when editing a transaction
   useEffect(() => {
+    // If editingTransaction is provided, populate the form with its data; otherwise, reset the form
     if (editingTransaction) {
       setFormData({
         type: editingTransaction.type,
@@ -45,8 +47,18 @@ function TransactionForm({
         paymentMethod: '',
       });
     }
+    // Reset errors when editingTransaction changes
+    setError({
+      type: '',
+      description: '',
+      amount: '',
+      category: '',
+      date: '',
+      paymentMethod: '',
+    });
   }, [editingTransaction]);
 
+  // Handle transaction type change
   function handleTypeChange(type) {
     setFormData({
       ...formData,
@@ -59,21 +71,25 @@ function TransactionForm({
     });
   }
 
+  // Handle input changes
   function handleChange(event) {
+    // Update form data based on input changes
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
     });
-
+    // Clear the error for the specific field when the user starts typing
     setError({
       ...error,
       [event.target.name]: '',
     });
   }
 
+  // Handle form submission
   function handleSubmit(event) {
     event.preventDefault();
 
+    // Validate form data
     if (formData.type.trim() === '') {
       setError({
         ...error,
@@ -98,6 +114,14 @@ function TransactionForm({
       return;
     }
 
+    const amountValue = Number(formData.amount);
+    if (!Number.isFinite(amountValue) || amountValue <= 0) {
+      setError({
+        ...error,
+        amount: 'Please enter a valid amount greater than 0.',
+      });
+      return;
+    }
     if (formData.category.trim() === '') {
       setError({
         ...error,
@@ -122,6 +146,7 @@ function TransactionForm({
       return;
     }
 
+    // If all validations pass, proceed to add or update the transaction
     if (editingTransaction) {
       const updatedTransaction = {
         ...formData,
@@ -140,6 +165,7 @@ function TransactionForm({
       onAddTransaction(newTransaction);
     }
 
+    // Reset form data and errors after submission
     setFormData({
       type: '',
       description: '',
@@ -162,6 +188,7 @@ function TransactionForm({
   return (
     <form className="transaction-form" onSubmit={handleSubmit}>
       <h2>{editingTransaction ? 'Edit Transaction' : 'Add Transaction'}</h2>
+
       <div className="toggle-type">
         <label htmlFor="type">Type</label>
         <div
