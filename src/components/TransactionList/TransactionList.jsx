@@ -2,11 +2,11 @@ import './TransactionList.css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TransactionItem from './TransactionItem';
-import TransactionSearch from '../../features/transaction/search/TransactionSearch';
-import CategoryFilter from '../../features/transaction/category/CategoryFilter';
-import TypeFilter from '../../features/transaction/type/TypeFilter';
-import TransactionSort from '../../features/transaction/sorting/TransactionSort';
-import TransactionReset from '../../features/transaction/reset/TransactionReset';
+import TransactionSearch from '../TransactionFeatures/search/TransactionSearch';
+import CategoryFilter from '../TransactionFeatures/category/CategoryFilter';
+import TypeFilter from '../TransactionFeatures/type/TypeFilter';
+import TransactionSort from '../TransactionFeatures/sorting/TransactionSort';
+import TransactionReset from '../TransactionFeatures/reset/TransactionReset';
 
 function TransactionList({
   transactions,
