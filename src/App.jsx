@@ -14,7 +14,7 @@ import initialTransactions from './data/transactions';
 
 function App() {
   const [transactions, setTransactions] = useState(initialTransactions);
-  const [editingTransaction, setEditingTransaction] = useState(null);
+  // const [editingTransaction, setEditingTransaction] = useState(null);
   const navigate = useNavigate();
 
   function handleAddTransaction(transaction) {
@@ -29,7 +29,7 @@ function App() {
   }
 
   function handleEditTransaction(transaction) {
-    setEditingTransaction(transaction);
+    // setEditingTransaction(transaction);
     navigate(`/transactions/${transaction.id}/edit`);
   }
 
@@ -39,17 +39,17 @@ function App() {
         if (transaction.id === updatedTransaction.id) {
           return updatedTransaction;
         }
- 
+
         return transaction;
       }),
     );
 
-    setEditingTransaction(null);
+    // setEditingTransaction(null);
     navigate('/');
   }
 
   function handleCancelEdit() {
-    setEditingTransaction(null);
+    // setEditingTransaction(null);
     navigate('/');
   }
 
@@ -89,8 +89,8 @@ function App() {
           path="/transactions/:id/edit"
           element={
             <TransactionFormPage
+              transactions={transactions}
               onAddTransaction={handleAddTransaction}
-              editingTransaction={editingTransaction}
               onUpdateTransaction={handleUpdateTransaction}
               onCancelEdit={handleCancelEdit}
             />

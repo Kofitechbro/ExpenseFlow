@@ -20,6 +20,7 @@ function TransactionForm({
   );
 }
 
+// TransactionFormContent component manages the form state and handles form submission  
 function TransactionFormContent({
   onAddTransaction,
   editingTransaction,
