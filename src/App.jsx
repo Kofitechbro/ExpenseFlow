@@ -82,7 +82,10 @@ function App() {
         <Route
           path="/transactions/new"
           element={
-            <TransactionFormPage onAddTransaction={handleAddTransaction} />
+            <TransactionFormPage
+              transactions={transactions}
+              onAddTransaction={handleAddTransaction}
+            />
           }
         />
         <Route
@@ -90,7 +93,6 @@ function App() {
           element={
             <TransactionFormPage
               transactions={transactions}
-              onAddTransaction={handleAddTransaction}
               onUpdateTransaction={handleUpdateTransaction}
               onCancelEdit={handleCancelEdit}
             />
