@@ -87,6 +87,16 @@
   outline-offset: 3px;
 }
 
+
+.budget-form .error-text {
+  color: var(--color-red);
+  font-size: 0.75rem;
+}
+
+.budget-form input.border-error {
+  border-color: var(--color-red);
+}
+
 @media (max-width: 600px) {
   .budget-form-container {
     padding: 1rem;

@@ -12,6 +12,9 @@ function Budget({ budgets }) {
           budget.
         </p>
       </section>
+
+      <BudgetForm />
+
       {/* Budget overview */}
       <section className="budget-overview">
         <h2>Monthly Summary</h2>
@@ -33,8 +36,6 @@ function Budget({ budgets }) {
           </p>
         </section>
       )}
-
-      <BudgetForm />
     </main>
   );
 }
