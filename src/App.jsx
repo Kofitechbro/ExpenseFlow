@@ -18,6 +18,7 @@ import TransactionFormPage from './pages/TransactionForm/TransactionFormPage';
 // import components
 import Header from './components/Header/Header';
 import initialTransactions from './data/transactions';
+import initialBudgets from './data/budgetData';
 import storage from './utils/storage';
 
 // App component
@@ -27,6 +28,9 @@ function App() {
     const storedTransactions = storage.getTransactions();
     return storedTransactions || initialTransactions;
   });
+
+  // State for budget
+  const [budgets, setBudgets] = useState(initialBudgets);
 
   // State for editing transaction
   const navigate = useNavigate();
@@ -103,7 +107,7 @@ function App() {
         />
 
         {/* Budget Route Page */}
-        <Route path="/budget" element={<Budget />} />
+        <Route path="/budget" element={<Budget budgets={budgets} />} />
 
         {/* Currency Route Page */}
         <Route path="/currency" element={<Currency />} />

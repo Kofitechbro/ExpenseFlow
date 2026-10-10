@@ -1,6 +1,7 @@
 import './Budget.css';
+import BudgetForm from '../../components/BudgetForm/BudgetForm';
 
-function Budget() {
+function Budget({ budgets }) {
   return (
     <main className="budget-page">
       {/* Page heading */}
@@ -19,16 +20,21 @@ function Budget() {
         </p>
       </section>
       {/* Empty state */}
-      <section className="budget-empty-state">
-        <div className="budget-empty-icon" aria-label="Budget Icon">
-          <i class="fa-solid fa-cedi-sign"></i>
-        </div>
-        <h2>Set Your Budget</h2>
-        <p>
-          Create a budget to set your spending limit and track how much you
-          spend during the selected period.
-        </p>
-      </section>
+
+      {budgets.length === 0 && (
+        <section className="budget-empty-state">
+          <div className="budget-empty-icon" aria-label="Budget Icon">
+            <i className="fa-solid fa-cedi-sign"></i>
+          </div>
+          <h2>Set Your Budget</h2>
+          <p>
+            Create a budget to set your spending limit and track how much you
+            spend during the selected period.
+          </p>
+        </section>
+      )}
+
+      <BudgetForm />
     </main>
   );
 }
