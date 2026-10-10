@@ -1,7 +1,7 @@
 import './Budget.css';
 import BudgetForm from '../../components/BudgetForm/BudgetForm';
 
-function Budget({ budgets }) {
+function Budget({ budgets, onAddBudget }) {
   return (
     <main className="budget-page">
       {/* Page heading */}
@@ -13,7 +13,7 @@ function Budget({ budgets }) {
         </p>
       </section>
 
-      <BudgetForm />
+      <BudgetForm onAddBudget={onAddBudget} />
 
       {/* Budget overview */}
       <section className="budget-overview">

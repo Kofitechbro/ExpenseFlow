@@ -69,8 +69,8 @@ function BudgetForm({ onAddBudget }) {
     }
 
     if (formData.endDate < formData.startDate) {
-      setError((preError) => ({
-        ...preError,
+      setError((prevError) => ({
+        ...prevError,
         endDate: 'End date cannot be before the start date.',
       }));
       return;

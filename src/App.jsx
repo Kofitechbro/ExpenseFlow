@@ -78,6 +78,10 @@ function App() {
     navigate('/');
   }
 
+  function handleAddBudget(newBudget) {
+    setBudgets((prevBudgets) => [...prevBudgets, newBudget]);
+  }
+
   return (
     <div className="App">
       <Header />
@@ -107,7 +111,10 @@ function App() {
         />
 
         {/* Budget Route Page */}
-        <Route path="/budget" element={<Budget budgets={budgets} />} />
+        <Route
+          path="/budget"
+          element={<Budget budgets={budgets} onAddBudget={handleAddBudget} />}
+        />
 
         {/* Currency Route Page */}
         <Route path="/currency" element={<Currency />} />
