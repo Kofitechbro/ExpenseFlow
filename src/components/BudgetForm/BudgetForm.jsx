@@ -3,14 +3,14 @@ import './BudgetForm.css';
 
 function BudgetForm({ onAddBudget, onClose }) {
   const [formData, setFormData] = useState({
-    budgetName: '',
+    name: '',
     amount: '',
     startDate: '',
     endDate: '',
   });
 
   const [error, setError] = useState({
-    budgetName: '',
+    name: '',
     amount: '',
     startDate: '',
     endDate: '',
@@ -27,10 +27,10 @@ function BudgetForm({ onAddBudget, onClose }) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (formData.budgetName.trim() === '') {
+    if (formData.name.trim() === '') {
       setError((prevError) => ({
         ...prevError,
-        budgetName: 'Please enter a budget name.',
+        name: 'Please enter a budget name.',
       }));
       return;
     }
@@ -68,17 +68,17 @@ function BudgetForm({ onAddBudget, onClose }) {
       return;
     }
 
-    if (formData.endDate <= formData.startDate) {
+    if (formData.endDate < formData.startDate) {
       setError((prevError) => ({
         ...prevError,
-        endDate: 'End date cannot be before or exactly as the start date.',
+        endDate: 'End date cannot be before the start date.',
       }));
       return;
     }
 
     const newBudget = {
       id: Date.now(),
-      name: formData.budgetName,
+      name: formData.name,
       amount: Number(formData.amount),
       startDate: formData.startDate,
       endDate: formData.endDate,
@@ -86,14 +86,14 @@ function BudgetForm({ onAddBudget, onClose }) {
     onAddBudget(newBudget);
 
     setFormData({
-      budgetName: '',
+      name: '',
       amount: '',
       startDate: '',
       endDate: '',
     });
 
     setError({
-      budgetName: '',
+      name: '',
       amount: '',
       startDate: '',
       endDate: '',
@@ -120,15 +120,16 @@ function BudgetForm({ onAddBudget, onClose }) {
         <div className="form-group">
           <label htmlFor="budget-name">Budget name:</label>
           <input
-            className={error.budgetName ? 'border-error' : ''}
+            className={error.name ? 'border-error' : ''}
             type="text"
             id="budget-name"
-            name="budgetName"
-            value={formData.budgetName}
+            name="name"
+            value={formData.name}
+            autoComplete="off"
             onChange={handleChange}
             placeholder="e.g. Monthly Budget"
           />
-          {error.budgetName && <p className="error-text">{error.budgetName}</p>}
+          {error.name && <p className="error-text">{error.name}</p>}
         </div>
 
         <div className="form-group">
@@ -139,6 +140,7 @@ function BudgetForm({ onAddBudget, onClose }) {
             id="budget-amount"
             name="amount"
             value={formData.amount}
+            autoComplete="off"
             onChange={handleChange}
             placeholder="Enter budget amount"
             min="0.01"
@@ -155,6 +157,7 @@ function BudgetForm({ onAddBudget, onClose }) {
             id="budget-start-date"
             name="startDate"
             value={formData.startDate}
+            autoComplete="off"
             onChange={handleChange}
           />
           {error.startDate && <p className="error-text">{error.startDate}</p>}
@@ -168,6 +171,7 @@ function BudgetForm({ onAddBudget, onClose }) {
             id="budget-end-date"
             name="endDate"
             value={formData.endDate}
+            autoComplete="off"
             onChange={handleChange}
             min={formData.startDate || undefined}
           />

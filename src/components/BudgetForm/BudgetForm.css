@@ -158,6 +158,51 @@
   color: var(--color-surface);
 }
 
+.budget-list {
+  margin-top: 2rem;
+}
+
+.budget-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.budget-card {
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+}
+
+.budget-card-details h3 {
+  margin: 0 0 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.budget-card-limit {
+  margin-top: 1.5rem;
+}
+
+.budget-card-limit p {
+  margin: 0.4rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.budget-card-details p,
+.budget-card-limit span,
+.budget-card-note {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.budget-card-note {
+  margin-top: 1rem;
+}
+
 @media (max-width: 400px) {
   .budget-form-container {
     padding: 1rem;

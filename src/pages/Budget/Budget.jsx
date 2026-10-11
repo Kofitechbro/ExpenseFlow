@@ -5,6 +5,35 @@ import { useState } from 'react';
 function Budget({ budgets, onAddBudget }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function formattedDate(dateFormat) {
+    const date = new Date(dateFormat);
+    const formattedDate = date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+    return formattedDate;
+  }
+
+  function formattedCurrency(currency) {
+    const amount = currency;
+    const formattedAmount = amount.toLocaleString('en-GH', {
+      style: 'currency',
+      currency: 'GHS',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    return formattedAmount;
+  }
+
   return (
     <main className="budget-page">
       {/* Page heading */}
@@ -16,6 +45,12 @@ function Budget({ budgets, onAddBudget }) {
         </p>
       </section>
 
+      {budgets.length > 0 && (
+        <button type="button" onClick={openModal}>
+          Add Budget
+        </button>
+      )}
+
       {/* Budget overview */}
       <section className="budget-overview">
         <h2>Monthly Summary</h2>
@@ -23,9 +58,9 @@ function Budget({ budgets, onAddBudget }) {
           Your spending summary will appear here when your budget is set up.
         </p>
       </section>
-      {/* Empty state */}
 
-      {budgets.length === 0 && (
+      {/* Empty state */}
+      {budgets.length === 0 ? (
         <section className="budget-empty-state">
           <div className="budget-empty-icon" aria-label="Budget Icon">
             <i className="fa-solid fa-cedi-sign"></i>
@@ -38,29 +73,48 @@ function Budget({ budgets, onAddBudget }) {
 
           <button
             type="button"
-            onClick={() => {
-              setIsOpen(true);
-            }}
+            onClick={openModal}
             className="budget-state-button"
           >
             Add Budget
           </button>
         </section>
+      ) : (
+        <section className="budget-list">
+          <h2>Your Budget</h2>
+
+          <div className="budget-list-grid">
+            {budgets.map((budget) => (
+              <article key={budget.id} className="budget-card">
+                <div className="budget-card-details">
+                  <h3>{budget.name}</h3>
+                  <p>
+                    {formattedDate(budget.startDate)} -{' '}
+                    {formattedDate(budget.endDate)}
+                  </p>
+                </div>
+
+                <div className="budget-card-limit">
+                  <span>Spending limit</span>
+                  <p>{formattedCurrency(budget.amount)}</p>
+                </div>
+
+                <p className="budget-card-note">
+                  Spending progress will be added in a later task.
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
       )}
 
       {isOpen && (
-        <section
-          className="budget-modal-backdrop"
-          onClick={() => setIsOpen(false)}
-        >
+        <section className="budget-modal-backdrop" onClick={closeModal}>
           <div
             className="budget-modal"
             onClick={(event) => event.stopPropagation()}
           >
-            <BudgetForm
-              onAddBudget={onAddBudget}
-              onClose={() => setIsOpen(false)}
-            />
+            <BudgetForm onAddBudget={onAddBudget} onClose={closeModal} />
           </div>
         </section>
       )}
