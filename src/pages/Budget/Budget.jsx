@@ -1,6 +1,7 @@
 import './Budget.css';
 import BudgetForm from '../../components/BudgetForm/BudgetForm';
 import { useState } from 'react';
+import FloatingAddButton from '../../components/FloatingAddButton/FloatingAddButton';
 
 function Budget({ budgets, onAddBudget }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,17 +14,29 @@ function Budget({ budgets, onAddBudget }) {
     setIsOpen(false);
   }
 
-  function formattedDate(dateFormat) {
+  function formatDate(dateFormat) {
+    /*
     const date = new Date(dateFormat);
     const formattedDate = date.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
     });
+    */
+
+    const [year, month, day] = dateFormat.split('-').map(Number);
+    const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+      'en-GB',
+      {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      },
+    );
     return formattedDate;
   }
 
-  function formattedCurrency(currency) {
+  function formatCurrency(currency) {
     const amount = currency;
     const formattedAmount = amount.toLocaleString('en-GH', {
       style: 'currency',
@@ -45,17 +58,12 @@ function Budget({ budgets, onAddBudget }) {
         </p>
       </section>
 
-      {budgets.length > 0 && (
-        <button type="button" onClick={openModal}>
-          Add Budget
-        </button>
-      )}
-
       {/* Budget overview */}
       <section className="budget-overview">
         <h2>Monthly Summary</h2>
         <p>
-          Your spending summary will appear here when your budget is set up.
+          Spending totals will appear here once spending tracking is
+          implemented.
         </p>
       </section>
 
@@ -73,15 +81,15 @@ function Budget({ budgets, onAddBudget }) {
 
           <button
             type="button"
-            onClick={openModal}
             className="budget-state-button"
+            onClick={openModal}
           >
             Add Budget
           </button>
         </section>
       ) : (
         <section className="budget-list">
-          <h2>Your Budget</h2>
+          <h2>Your Budgets</h2>
 
           <div className="budget-list-grid">
             {budgets.map((budget) => (
@@ -89,14 +97,14 @@ function Budget({ budgets, onAddBudget }) {
                 <div className="budget-card-details">
                   <h3>{budget.name}</h3>
                   <p>
-                    {formattedDate(budget.startDate)} -{' '}
-                    {formattedDate(budget.endDate)}
+                    {formatDate(budget.startDate)} -{' '}
+                    {formatDate(budget.endDate)}
                   </p>
                 </div>
 
                 <div className="budget-card-limit">
                   <span>Spending limit</span>
-                  <p>{formattedCurrency(budget.amount)}</p>
+                  <p>{formatCurrency(budget.amount)}</p>
                 </div>
 
                 <p className="budget-card-note">
@@ -117,6 +125,12 @@ function Budget({ budgets, onAddBudget }) {
             <BudgetForm onAddBudget={onAddBudget} onClose={closeModal} />
           </div>
         </section>
+      )}
+
+      {budgets > 0 && (
+        <FloatingAddButton type="button" onClick={openModal}>
+          Add Budget
+        </FloatingAddButton>
       )}
     </main>
   );
