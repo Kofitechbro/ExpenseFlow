@@ -1,7 +1,7 @@
 import './FloatingAddButton.css';
 import { useNavigate } from 'react-router-dom';
 
-function FloatingAddButton() {
+function FloatingAddButton({children}) {
   const navigate = useNavigate();
 
   function handleTransactionNew() {
@@ -11,7 +11,7 @@ function FloatingAddButton() {
   return (
     <div className="floating-button">
       <button onClick={handleTransactionNew} type="button">
-        Add Transaction
+        {children}
       </button>
     </div>
   );
