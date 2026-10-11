@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './BudgetForm.css';
 
-function BudgetForm({ onAddBudget }) {
+function BudgetForm({ onAddBudget, onClose }) {
   const [formData, setFormData] = useState({
     budgetName: '',
     amount: '',
@@ -68,10 +68,10 @@ function BudgetForm({ onAddBudget }) {
       return;
     }
 
-    if (formData.endDate < formData.startDate) {
+    if (formData.endDate <= formData.startDate) {
       setError((prevError) => ({
         ...prevError,
-        endDate: 'End date cannot be before the start date.',
+        endDate: 'End date cannot be before or exactly as the start date.',
       }));
       return;
     }
@@ -98,11 +98,23 @@ function BudgetForm({ onAddBudget }) {
       startDate: '',
       endDate: '',
     });
+
+    onClose();
   }
 
   return (
     <section className="budget-form-container">
-      <h2>Set Your Budget</h2>
+      <div className="budget-form-heading">
+        <h3>Set Your Budget</h3>
+        <button
+          type="button"
+          className="budget-modal-close"
+          onClick={onClose}
+          aria-label="Close budget form"
+        >
+          &times;
+        </button>
+      </div>
 
       <form className="budget-form" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -115,7 +127,6 @@ function BudgetForm({ onAddBudget }) {
             value={formData.budgetName}
             onChange={handleChange}
             placeholder="e.g. Monthly Budget"
-            // required
           />
           {error.budgetName && <p className="error-text">{error.budgetName}</p>}
         </div>
@@ -132,7 +143,6 @@ function BudgetForm({ onAddBudget }) {
             placeholder="Enter budget amount"
             min="0.01"
             step="0.01"
-            // required
           />
           {error.amount && <p className="error-text">{error.amount}</p>}
         </div>
@@ -146,7 +156,6 @@ function BudgetForm({ onAddBudget }) {
             name="startDate"
             value={formData.startDate}
             onChange={handleChange}
-            // required
           />
           {error.startDate && <p className="error-text">{error.startDate}</p>}
         </div>
@@ -160,7 +169,7 @@ function BudgetForm({ onAddBudget }) {
             name="endDate"
             value={formData.endDate}
             onChange={handleChange}
-            // required
+            min={formData.startDate || undefined}
           />
           {error.endDate && <p className="error-text">{error.endDate}</p>}
         </div>

@@ -1,7 +1,10 @@
 import './Budget.css';
 import BudgetForm from '../../components/BudgetForm/BudgetForm';
+import { useState } from 'react';
 
 function Budget({ budgets, onAddBudget }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <main className="budget-page">
       {/* Page heading */}
@@ -12,8 +15,6 @@ function Budget({ budgets, onAddBudget }) {
           budget.
         </p>
       </section>
-
-      <BudgetForm onAddBudget={onAddBudget} />
 
       {/* Budget overview */}
       <section className="budget-overview">
@@ -34,6 +35,33 @@ function Budget({ budgets, onAddBudget }) {
             Create a budget to set your spending limit and track how much you
             spend during the selected period.
           </p>
+
+          <button
+            type="button"
+            onClick={() => {
+              setIsOpen(true);
+            }}
+            className="budget-state-button"
+          >
+            Add Budget
+          </button>
+        </section>
+      )}
+
+      {isOpen && (
+        <section
+          className="budget-modal-backdrop"
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            className="budget-modal"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <BudgetForm
+              onAddBudget={onAddBudget}
+              onClose={() => setIsOpen(false)}
+            />
+          </div>
         </section>
       )}
     </main>
