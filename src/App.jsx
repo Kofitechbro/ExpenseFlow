@@ -26,11 +26,14 @@ function App() {
   // State for transactions
   const [transactions, setTransactions] = useState(() => {
     const storedTransactions = storage.getTransactions();
-    return storedTransactions || initialTransactions;
+    return storedTransactions ?? initialTransactions;
   });
 
   // State for budget
-  const [budgets, setBudgets] = useState(initialBudgets);
+  const [budgets, setBudgets] = useState(() => {
+    const storedBudgets = storage.getBudgets();
+    return storedBudgets ?? initialBudgets;
+  });
 
   // State for editing transaction
   const navigate = useNavigate();
@@ -39,6 +42,10 @@ function App() {
   useEffect(() => {
     storage.saveTransactions(transactions);
   }, [transactions]);
+
+  useEffect(() => {
+    storage.saveBudgets(budgets);
+  }, [budgets]);
 
   // Function to handle adding a new transaction
   function handleAddTransaction(transaction) {
