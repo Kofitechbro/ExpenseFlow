@@ -3,7 +3,7 @@ import BudgetForm from '../../components/BudgetForm/BudgetForm';
 import { useState } from 'react';
 import FloatingAddButton from '../../components/FloatingAddButton/FloatingAddButton';
 
-function Budget({ budgets, onAddBudget }) {
+function Budget({ budgets, onAddBudget, transactions }) {
   const [isOpen, setIsOpen] = useState(false);
 
   function openModal() {
@@ -47,6 +47,20 @@ function Budget({ budgets, onAddBudget }) {
     return formattedAmount;
   }
 
+  function totalExpenses(budget) {
+    const expenses = transactions.filter((transaction) => {
+      return (
+        transaction.type === 'Expense' &&
+        transaction.date >= budget.startDate &&
+        transaction.date <= budget.endDate
+      );
+    });
+
+    return expenses.reduce((total, transaction) => {
+      return total + Number(transaction.amount);
+    }, 0);
+  }
+
   return (
     <main className="budget-page">
       {/* Page heading */}
@@ -61,10 +75,7 @@ function Budget({ budgets, onAddBudget }) {
       {/* Budget overview */}
       <section className="budget-overview">
         <h2>Monthly Summary</h2>
-        <p>
-          Spending totals will appear here once spending tracking is
-          implemented.
-        </p>
+        <p>Review spending progress for each of your budgets below.</p>
       </section>
 
       {/* Empty state */}
@@ -92,26 +103,66 @@ function Budget({ budgets, onAddBudget }) {
           <h2>Your Budgets</h2>
 
           <div className="budget-list-grid">
-            {budgets.map((budget) => (
-              <article key={budget.id} className="budget-card">
-                <div className="budget-card-details">
-                  <h3>{budget.name}</h3>
-                  <p>
-                    {formatDate(budget.startDate)} -{' '}
-                    {formatDate(budget.endDate)}
-                  </p>
-                </div>
+            {budgets.map((budget) => {
+              // Calculate spending once for this budget.
+              const spent = totalExpenses(budget);
 
-                <div className="budget-card-limit">
-                  <span>Spending limit</span>
-                  <p>{formatCurrency(budget.amount)}</p>
-                </div>
+              // Calculate how much of the budget remains.
+              const remaining = budget.amount - spent;
 
-                <p className="budget-card-note">
-                  Spending progress will be added in a later task.
-                </p>
-              </article>
-            ))}
+              // Calculate the percentage of the budget used.
+              const percentageUsed =
+                budget.amount > 0 ? (spent / budget.amount) * 100 : 0;
+
+              // Prevent the progress bar from exceeding 100%
+              const progressWidth = Math.min(Math.max(percentageUsed, 0), 100);
+
+              return (
+                <article key={budget.id} className="budget-card">
+                  <div className="budget-card-details">
+                    <h3>{budget.name}</h3>
+                    <p>
+                      {formatDate(budget.startDate)} -{' '}
+                      {formatDate(budget.endDate)}
+                    </p>
+                  </div>
+
+                  <div className="budget-card-limit">
+                    <span>Spending limit</span>
+                    <p>{formatCurrency(budget.amount)}</p>
+                  </div>
+
+                  <div className="budget-card-progress">
+                    <div className="budget-card-progress-details">
+                      <span>Spent: {formatCurrency(spent)}</span>
+
+                      <span>
+                        {remaining >= 0
+                          ? `Remaining: ${formatCurrency(remaining)}`
+                          : `Over Budget by ${formatCurrency(Math.abs(remaining))}`}
+                      </span>
+                    </div>
+
+                    <div
+                      className="budget-progress-track"
+                      role="progressbar"
+                      aria-label={`Budget used for ${budget.name}`}
+                      aria-valuenow={progressWidth}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                    >
+                      <div
+                        className="budget-progress-fill"
+                        style={{ width: `${progressWidth}%` }}
+                      ></div>
+                    </div>
+                    <p className="budget-card-percentage">
+                      {percentageUsed.toFixed(1)}% used
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
       )}
@@ -127,10 +178,12 @@ function Budget({ budgets, onAddBudget }) {
         </section>
       )}
 
-      {budgets > 0 && (
-        <FloatingAddButton type="button" onClick={openModal}>
-          Add Budget
-        </FloatingAddButton>
+      {budgets.length > 0 && (
+        <div className="budget-float-button">
+          <button type="button" onClick={openModal}>
+            Add Budget
+          </button>
+        </div>
       )}
     </main>
   );

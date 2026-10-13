@@ -120,7 +120,13 @@ function App() {
         {/* Budget Route Page */}
         <Route
           path="/budget"
-          element={<Budget budgets={budgets} onAddBudget={handleAddBudget} />}
+          element={
+            <Budget
+              budgets={budgets}
+              onAddBudget={handleAddBudget}
+              transactions={transactions}
+            />
+          }
         />
 
         {/* Currency Route Page */}
