@@ -25,14 +25,8 @@
   box-shadow: var(--shadow);
 }
 
-.budget-heading,
 .budget-form-heading {
   margin-bottom: 1.5rem;
-}
-
-.budget-heading h2 {
-  color: var(--color-text);
-  font-weight: 700;
 }
 
 .budget-form-heading {

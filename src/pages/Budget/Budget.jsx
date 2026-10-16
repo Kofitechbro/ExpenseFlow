@@ -1,7 +1,6 @@
-import './Budget.css';
-import BudgetForm from '../../components/BudgetForm/BudgetForm';
-import { useState } from 'react';
-import FloatingAddButton from '../../components/FloatingAddButton/FloatingAddButton';
+import "./Budget.css";
+import BudgetForm from "../../components/BudgetForm/BudgetForm";
+import { useState } from "react";
 
 function Budget({ budgets, onAddBudget, transactions }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,13 +23,14 @@ function Budget({ budgets, onAddBudget, transactions }) {
     });
     */
 
-    const [year, month, day] = dateFormat.split('-').map(Number);
+    const [year, month, day] = dateFormat.split("-").map(Number);
+
     const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
-      'en-GB',
+      "en-GB",
       {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
       },
     );
     return formattedDate;
@@ -38,9 +38,10 @@ function Budget({ budgets, onAddBudget, transactions }) {
 
   function formatCurrency(currency) {
     const amount = currency;
-    const formattedAmount = amount.toLocaleString('en-GH', {
-      style: 'currency',
-      currency: 'GHS',
+
+    const formattedAmount = amount.toLocaleString("en-GH", {
+      style: "currency",
+      currency: "GHS",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -50,7 +51,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
   function totalExpenses(budget) {
     const expenses = transactions.filter((transaction) => {
       return (
-        transaction.type === 'Expense' &&
+        transaction.type === "Expense" &&
         transaction.date >= budget.startDate &&
         transaction.date <= budget.endDate
       );
@@ -60,6 +61,29 @@ function Budget({ budgets, onAddBudget, transactions }) {
       return total + Number(transaction.amount);
     }, 0);
   }
+
+  function getCurrentMonthExpenses() {
+    const today = new Date();
+
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+
+    const monthlyExpenses = transactions.filter((transaction) => {
+      const transactionDate = new Date(`${transaction.date}T00:00:00`);
+
+      return (
+        transaction.type === "Expense" &&
+        transactionDate.getFullYear() === currentYear &&
+        transactionDate.getMonth === currentMonth
+      );
+    });
+
+    return monthlyExpenses.reduce((total, transaction) => {
+      return total + Number(transaction.amount);
+    }, 0);
+  }
+
+  const currentMonthSpent = getCurrentMonthExpenses();
 
   return (
     <main className="budget-page">
@@ -76,6 +100,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
       <section className="budget-overview">
         <h2>Monthly Summary</h2>
         <p>Review spending progress for each of your budgets below.</p>
+        <p>{formatCurrency(currentMonthSpent)}</p>
       </section>
 
       {/* Empty state */}
@@ -93,8 +118,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
           <button
             type="button"
             className="budget-state-button"
-            onClick={openModal}
-          >
+            onClick={openModal}>
             Add Budget
           </button>
         </section>
@@ -122,7 +146,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
                   <div className="budget-card-details">
                     <h3>{budget.name}</h3>
                     <p>
-                      {formatDate(budget.startDate)} -{' '}
+                      {formatDate(budget.startDate)} -{" "}
                       {formatDate(budget.endDate)}
                     </p>
                   </div>
@@ -149,12 +173,10 @@ function Budget({ budgets, onAddBudget, transactions }) {
                       aria-label={`Budget used for ${budget.name}`}
                       aria-valuenow={progressWidth}
                       aria-valuemin={0}
-                      aria-valuemax={100}
-                    >
+                      aria-valuemax={100}>
                       <div
                         className="budget-progress-fill"
-                        style={{ width: `${progressWidth}%` }}
-                      ></div>
+                        style={{ width: `${progressWidth}%` }}></div>
                     </div>
                     <p className="budget-card-percentage">
                       {percentageUsed.toFixed(1)}% used
@@ -171,8 +193,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
         <section className="budget-modal-backdrop" onClick={closeModal}>
           <div
             className="budget-modal"
-            onClick={(event) => event.stopPropagation()}
-          >
+            onClick={(event) => event.stopPropagation()}>
             <BudgetForm onAddBudget={onAddBudget} onClose={closeModal} />
           </div>
         </section>
