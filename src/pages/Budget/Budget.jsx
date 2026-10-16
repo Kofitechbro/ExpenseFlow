@@ -74,7 +74,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
       return (
         transaction.type === "Expense" &&
         transactionDate.getFullYear() === currentYear &&
-        transactionDate.getMonth === currentMonth
+        transactionDate.getMonth() === currentMonth
       );
     });
 
