@@ -13,6 +13,12 @@
   --color-red: #dc2626;
   --color-red-light: rgba(220, 38, 38, 0.1);
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --color-icon-1: #2563eb;
+  --color-icon-1-background: #eff6ff;
+  --color-icon-2: #0f766e;
+  --color-icon-2-background: #ccfbf1;
+  --color-icon-3: #7c3aed;
+  --color-icon-3-background: #ede9fe;
 }
 
 * {
