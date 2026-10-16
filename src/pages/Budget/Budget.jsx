@@ -85,6 +85,27 @@ function Budget({ budgets, onAddBudget, transactions }) {
 
   const currentMonthSpent = getCurrentMonthExpenses();
 
+  function getCurrentMonthExpenseCount() {
+    const today = new Date();
+
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+
+    const monthlyExpenses = transactions.filter((transaction) => {
+      const transactionDate = new Date(`${transaction.date}T00:00:00`);
+
+      return (
+        transaction.type === "Expense" &&
+        transactionDate.getFullYear() === currentYear &&
+        transactionDate.getMonth() === currentMonth
+      );
+    });
+
+    return monthlyExpenses.length;
+  }
+
+  const currentMonthExpenseCount = getCurrentMonthExpenseCount();
+
   return (
     <main className="budget-page">
       {/* Page heading */}
@@ -101,6 +122,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
         <h2>Monthly Summary</h2>
         <p>Review spending progress for each of your budgets below.</p>
         <p>{formatCurrency(currentMonthSpent)}</p>
+        <p>{formatCurrency(currentMonthExpenseCount)}</p>
       </section>
 
       {/* Empty state */}
