@@ -106,6 +106,11 @@ function Budget({ budgets, onAddBudget, transactions }) {
 
   const currentMonthExpenseCount = getCurrentMonthExpenseCount();
 
+  const averageExpense =
+    currentMonthExpenseCount > 0
+      ? currentMonthSpent / currentMonthExpenseCount
+      : 0;
+
   return (
     <main className="budget-page">
       {/* Page heading */}
@@ -119,10 +124,45 @@ function Budget({ budgets, onAddBudget, transactions }) {
 
       {/* Budget overview */}
       <section className="budget-overview">
-        <h2>Monthly Summary</h2>
-        <p>Review spending progress for each of your budgets below.</p>
-        <p>{formatCurrency(currentMonthSpent)}</p>
-        <p>{formatCurrency(currentMonthExpenseCount)}</p>
+        <div className="budget-overview-heading">
+          <div>
+            <h2>Monthly Summary</h2>
+            <p>Your spending at a glance this month.</p>
+          </div>
+        </div>
+
+        <div className="budget-summary-grid">
+          <article className="budget-summary-card">
+            <div className="budget-summary-icon expense-icon">
+              <i className="fa-solid fa-money-bill-wave" aria-hidden="true"></i>
+            </div>
+            <p className="budget-summary-label">Monthly Expenses</p>
+            <h3>{formatCurrency(currentMonthSpent)}</h3>
+            <p className="budget-summary-description">Total amount spent</p>
+          </article>
+
+          <article className="budget-summary-card">
+            <div className="budget-summary-icon transactions-icon">
+              <i className="fa-solid fa-receipt" aria-hidden="true"></i>
+            </div>
+            <p className="budget-summary-label">Transactions</p>
+            <h3>{currentMonthExpenseCount}</h3>
+            <p className="budget-summary-description">
+              Expense transactions this month
+            </p>
+          </article>
+
+          <article className="budget-summary-card">
+            <div className="budget-summary-icon average-icon">
+              <i className="fa-solid fa-chart-line" aria-hidden="true"></i>
+            </div>
+            <p className="budget-summary-label">Average Expense</p>
+            <h3>{formatCurrency(averageExpense)}</h3>
+            <p className="budget-summary-description">
+              Average per expense transaction
+            </p>
+          </article>
+        </div>
       </section>
 
       {/* Empty state */}
