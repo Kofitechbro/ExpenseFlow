@@ -1,19 +1,30 @@
-import { useState } from 'react';
-import './BudgetForm.css';
+import { useState } from "react";
+import "./BudgetForm.css";
 
-function BudgetForm({ onAddBudget, onClose }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    amount: '',
-    startDate: '',
-    endDate: '',
+function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
+  const [formData, setFormData] = useState(() => {
+    if (editingBudget) {
+      return {
+        name: editingBudget.name,
+        amount: String(editingBudget.amount),
+        startDate: editingBudget.startDate,
+        endDate: editingBudget.endDate,
+      };
+    }
+
+    return {
+      name: "",
+      amount: "",
+      startDate: "",
+      endDate: "",
+    };
   });
 
   const [error, setError] = useState({
-    name: '',
-    amount: '',
-    startDate: '',
-    endDate: '',
+    name: "",
+    amount: "",
+    startDate: "",
+    endDate: "",
   });
 
   function handleChange(event) {
@@ -21,24 +32,24 @@ function BudgetForm({ onAddBudget, onClose }) {
 
     setFormData((prevData) => ({ ...prevData, [name]: value }));
 
-    setError((prevErrors) => ({ ...prevErrors, [name]: '' }));
+    setError((prevErrors) => ({ ...prevErrors, [name]: "" }));
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (formData.name.trim() === '') {
+    if (formData.name.trim() === "") {
       setError((prevError) => ({
         ...prevError,
-        name: 'Please enter a budget name.',
+        name: "Please enter a budget name.",
       }));
       return;
     }
 
-    if (formData.amount.trim() === '') {
+    if (formData.amount.trim() === "") {
       setError((prevError) => ({
         ...prevError,
-        amount: 'Please enter budget amount',
+        amount: "Please enter budget amount",
       }));
       return;
     }
@@ -47,23 +58,23 @@ function BudgetForm({ onAddBudget, onClose }) {
     if (!Number.isFinite(amountValue) || amountValue < 0.01) {
       setError((prevError) => ({
         ...prevError,
-        amount: 'Please enter an amount of at least 0.01',
+        amount: "Please enter an amount of at least 0.01",
       }));
       return;
     }
 
-    if (formData.startDate.trim() === '') {
+    if (formData.startDate.trim() === "") {
       setError((prevError) => ({
         ...prevError,
-        startDate: 'Please select a starting date',
+        startDate: "Please select a starting date",
       }));
       return;
     }
 
-    if (formData.endDate.trim() === '') {
+    if (formData.endDate.trim() === "") {
       setError((prevError) => ({
         ...prevError,
-        endDate: 'Please select an end date',
+        endDate: "Please select an end date",
       }));
       return;
     }
@@ -71,32 +82,44 @@ function BudgetForm({ onAddBudget, onClose }) {
     if (formData.endDate < formData.startDate) {
       setError((prevError) => ({
         ...prevError,
-        endDate: 'End date cannot be before the start date.',
+        endDate: "End date cannot be before the start date.",
       }));
       return;
     }
 
-    const newBudget = {
-      id: Date.now(),
-      name: formData.name,
-      amount: Number(formData.amount),
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-    };
-    onAddBudget(newBudget);
+    if (editingBudget) {
+      const updatedBudget = {
+        ...editingBudget,
+        name: formData.name.trim(),
+        amount: Number(formData.amount),
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+      };
+
+      onUpdateBudget(updatedBudget);
+    } else {
+      const newBudget = {
+        id: Date.now(),
+        name: formData.name.trim(),
+        amount: Number(formData.amount),
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+      };
+      onAddBudget(newBudget);
+    }
 
     setFormData({
-      name: '',
-      amount: '',
-      startDate: '',
-      endDate: '',
+      name: "",
+      amount: "",
+      startDate: "",
+      endDate: "",
     });
 
     setError({
-      name: '',
-      amount: '',
-      startDate: '',
-      endDate: '',
+      name: "",
+      amount: "",
+      startDate: "",
+      endDate: "",
     });
 
     onClose();
@@ -105,13 +128,12 @@ function BudgetForm({ onAddBudget, onClose }) {
   return (
     <section className="budget-form-container">
       <div className="budget-form-heading">
-        <h3>Set Your Budget</h3>
+        <h3>{editingBudget ? "Edit" : "Set Your Budget"}</h3>
         <button
           type="button"
           className="budget-modal-close"
           onClick={onClose}
-          aria-label="Close budget form"
-        >
+          aria-label="Close budget form">
           &times;
         </button>
       </div>
@@ -120,7 +142,7 @@ function BudgetForm({ onAddBudget, onClose }) {
         <div className="form-group">
           <label htmlFor="budget-name">Budget name:</label>
           <input
-            className={error.name ? 'border-error' : ''}
+            className={error.name ? "border-error" : ""}
             type="text"
             id="budget-name"
             name="name"
@@ -136,7 +158,7 @@ function BudgetForm({ onAddBudget, onClose }) {
           <label htmlFor="budget-amount">Budget amount:</label>
           <input
             type="number"
-            className={error.amount ? 'border-error' : ''}
+            className={error.amount ? "border-error" : ""}
             id="budget-amount"
             name="amount"
             value={formData.amount}
@@ -153,7 +175,7 @@ function BudgetForm({ onAddBudget, onClose }) {
           <label htmlFor="budget-start-date">Start Date:</label>
           <input
             type="date"
-            className={error.startDate ? 'border-error' : ''}
+            className={error.startDate ? "border-error" : ""}
             id="budget-start-date"
             name="startDate"
             value={formData.startDate}
@@ -167,7 +189,7 @@ function BudgetForm({ onAddBudget, onClose }) {
           <label htmlFor="budget-end-date">End Date:</label>
           <input
             type="date"
-            className={error.endDate ? 'border-error' : ''}
+            className={error.endDate ? "border-error" : ""}
             id="budget-end-date"
             name="endDate"
             value={formData.endDate}
@@ -177,7 +199,9 @@ function BudgetForm({ onAddBudget, onClose }) {
           />
           {error.endDate && <p className="error-text">{error.endDate}</p>}
         </div>
-        <button type="submit">Create Budget</button>
+        <button type="submit">
+          {editingBudget ? "Save Changes" : "Create Budget"}
+        </button>
       </form>
     </section>
   );

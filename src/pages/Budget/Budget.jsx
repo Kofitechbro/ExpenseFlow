@@ -2,8 +2,16 @@ import "./Budget.css";
 import BudgetForm from "../../components/BudgetForm/BudgetForm";
 import { useState } from "react";
 
-function Budget({ budgets, onAddBudget, transactions }) {
+function Budget({
+  budgets,
+  onAddBudget,
+  onDeleteBudget,
+  transactions,
+  onUpdateBudget,
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isToggle, setIsToggle] = useState(false);
+  const [editingBudget, setEditingBudget] = useState(null);
 
   function openModal() {
     setIsOpen(true);
@@ -83,8 +91,6 @@ function Budget({ budgets, onAddBudget, transactions }) {
     }, 0);
   }
 
-  const currentMonthSpent = getCurrentMonthExpenses();
-
   function getCurrentMonthExpenseCount() {
     const today = new Date();
 
@@ -104,12 +110,20 @@ function Budget({ budgets, onAddBudget, transactions }) {
     return monthlyExpenses.length;
   }
 
-  const currentMonthExpenseCount = getCurrentMonthExpenseCount();
+  function getCurrentMonthAverageExpense() {
+    const total = getCurrentMonthExpenses();
+    const count = getCurrentMonthExpenseCount();
 
-  const averageExpense =
-    currentMonthExpenseCount > 0
-      ? currentMonthSpent / currentMonthExpenseCount
-      : 0;
+    if (count === 0) {
+      return 0;
+    }
+
+    return total / count;
+  }
+
+  const currentMonthSpent = getCurrentMonthExpenses();
+  const currentMonthExpenseCount = getCurrentMonthExpenseCount();
+  const averageExpense = getCurrentMonthAverageExpense();
 
   return (
     <main className="budget-page">
@@ -136,8 +150,10 @@ function Budget({ budgets, onAddBudget, transactions }) {
             <div className="budget-summary-icon expense-icon">
               <i className="fa-solid fa-money-bill-wave" aria-hidden="true"></i>
             </div>
+
             <p className="budget-summary-label">Monthly Expenses</p>
             <h3>{formatCurrency(currentMonthSpent)}</h3>
+
             <p className="budget-summary-description">Total amount spent</p>
           </article>
 
@@ -145,8 +161,10 @@ function Budget({ budgets, onAddBudget, transactions }) {
             <div className="budget-summary-icon transactions-icon">
               <i className="fa-solid fa-receipt" aria-hidden="true"></i>
             </div>
+
             <p className="budget-summary-label">Transactions</p>
             <h3>{currentMonthExpenseCount}</h3>
+
             <p className="budget-summary-description">
               Expense transactions this month
             </p>
@@ -156,8 +174,10 @@ function Budget({ budgets, onAddBudget, transactions }) {
             <div className="budget-summary-icon average-icon">
               <i className="fa-solid fa-chart-line" aria-hidden="true"></i>
             </div>
+
             <p className="budget-summary-label">Average Expense</p>
             <h3>{formatCurrency(averageExpense)}</h3>
+
             <p className="budget-summary-description">
               Average per expense transaction
             </p>
@@ -171,6 +191,7 @@ function Budget({ budgets, onAddBudget, transactions }) {
           <div className="budget-empty-icon" aria-label="Budget Icon">
             <i className="fa-solid fa-cedi-sign"></i>
           </div>
+
           <h2>Set Your Budget</h2>
           <p>
             Create a budget to set your spending limit and track how much you
@@ -206,11 +227,54 @@ function Budget({ budgets, onAddBudget, transactions }) {
               return (
                 <article key={budget.id} className="budget-card">
                   <div className="budget-card-details">
-                    <h3>{budget.name}</h3>
-                    <p>
-                      {formatDate(budget.startDate)} -{" "}
-                      {formatDate(budget.endDate)}
-                    </p>
+                    <div>
+                      <h3>{budget.name}</h3>
+                      <p>
+                        {formatDate(budget.startDate)} -{" "}
+                        {formatDate(budget.endDate)}
+                      </p>
+                    </div>
+
+                    <div className="budget-action">
+                      <button
+                        className="budget-actions-button"
+                        type="button"
+                        onClick={() => {
+                          setIsToggle(!isToggle);
+                        }}>
+                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                      </button>
+
+                      {isToggle && (
+                        <div className="budget-action-menu">
+                          <button
+                            className="budget-action-edit"
+                            onClick={() => {
+                              setEditingBudget(budget);
+                              setIsOpen(true);
+                              setIsToggle(false);
+                            }}
+                            type="button">
+                            <i className="fa-regular fa-pen-to-square"></i>
+                          </button>
+                          <button
+                            type="button"
+                            className="budget-action-delete"
+                            onClick={() => {
+                              const confirmed = window.confirm(
+                                `Are you sure you want to delete the "${budget.name}" budget?`,
+                              );
+
+                              if (confirmed) {
+                                onDeleteBudget(budget.id);
+                              }
+                            }}
+                            aria-label={`Delete ${budget.name} budget`}>
+                            <i className="fa-solid fa-trash-can"></i>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="budget-card-limit">
@@ -256,7 +320,13 @@ function Budget({ budgets, onAddBudget, transactions }) {
           <div
             className="budget-modal"
             onClick={(event) => event.stopPropagation()}>
-            <BudgetForm onAddBudget={onAddBudget} onClose={closeModal} />
+            <BudgetForm
+              key={editingBudget?.id ?? "No-Budget"}
+              onAddBudget={onAddBudget}
+              onUpdateBudget={onUpdateBudget}
+              editingBudget={editingBudget}
+              onClose={closeModal}
+            />
           </div>
         </section>
       )}
@@ -273,3 +343,71 @@ function Budget({ budgets, onAddBudget, transactions }) {
 }
 
 export default Budget;
+/*
+<div className="transaction-actions">
+          <button
+            className="transaction-actions-button"
+            type="button"
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
+            <i className="fa-solid fa-ellipsis-vertical"></i>
+          </button>
+
+          {isOpen && (
+            <div className="transaction-actions-menu">
+              <div className="transaction-action">
+                <button
+                  className="transaction-action-edit"
+                  onClick={() => {
+                    onEditTransaction(transaction);
+                    setIsOpen(false);
+                  }}
+                  type="button"
+                >
+                  <i className="fa-regular fa-pen-to-square"></i>
+                </button>
+                <span className="transaction-tooltip">Edit</span>
+              </div>
+
+              <div className="transaction-action">
+                <button
+                  className="transaction-action-delete"
+                  type="button"
+                  onClick={() => {
+                    setShowConfirm(true);
+                    setIsOpen(false);
+                  }}
+                >
+                  <i className="fa-solid fa-trash-can"></i>
+                </button>
+                <span className="transaction-tooltip">Delete</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+      {showConfirm && (
+        <div className="delete-confirmation">
+          <p>Are you sure you want to delete this transaction?</p>
+          <div className="delete-confirmation-actions">
+            <button
+              className="delete-cancel"
+              onClick={() => {
+                setShowConfirm(false);
+                setIsOpen(false);
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              className="delete-confirm"
+              onClick={() => onDeleteTransaction(transaction.id)}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
+*/

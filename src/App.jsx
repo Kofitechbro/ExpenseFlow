@@ -1,25 +1,25 @@
 // import css
-import './App.css';
+import "./App.css";
 
 // import useState and useEffect from react
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // import react router
-import { Routes, Route } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // import pages
-import Budget from './pages/Budget/Budget';
-import Currency from './pages/Currency/Currency';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Transactions from './pages/Transactions/Transactions';
-import TransactionFormPage from './pages/TransactionForm/TransactionFormPage';
+import Budget from "./pages/Budget/Budget";
+import Currency from "./pages/Currency/Currency";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Transactions from "./pages/Transactions/Transactions";
+import TransactionFormPage from "./pages/TransactionForm/TransactionFormPage";
 
 // import components
-import Header from './components/Header/Header';
-import initialTransactions from './data/transactions';
-import initialBudgets from './data/budgetData';
-import storage from './utils/storage';
+import Header from "./components/Header/Header";
+import initialTransactions from "./data/transactions";
+import initialBudgets from "./data/budgetData";
+import storage from "./utils/storage";
 
 // App component
 function App() {
@@ -50,7 +50,7 @@ function App() {
   // Function to handle adding a new transaction
   function handleAddTransaction(transaction) {
     setTransactions((current) => [...current, transaction]);
-    navigate('/');
+    navigate("/");
   }
 
   // Function to handle deleting a transaction
@@ -77,16 +77,34 @@ function App() {
       }),
     );
 
-    navigate('/');
+    navigate("/");
   }
 
   // Function to handle canceling editing and navigate back to dashboard
   function handleCancelEdit() {
-    navigate('/');
+    navigate("/");
   }
 
   function handleAddBudget(newBudget) {
     setBudgets((prevBudgets) => [...prevBudgets, newBudget]);
+  }
+
+  function handleDeleteBudget(id) {
+    setBudgets((currentBudgets) =>
+      currentBudgets.filter((budget) => budget.id !== id),
+    );
+  }
+
+  // Function to update an existing budget
+  function handleUpdateBudget(updateBudget) {
+    setBudgets((currentBudgets) =>
+      currentBudgets.map((budget) => {
+        if (budget.id === updateBudget.id) {
+          return updateBudget;
+        }
+        return budget;
+      }),
+    );
   }
 
   return (
@@ -124,6 +142,8 @@ function App() {
             <Budget
               budgets={budgets}
               onAddBudget={handleAddBudget}
+              onDeleteBudget={handleDeleteBudget}
+              onUpdateBudget={handleUpdateBudget}
               transactions={transactions}
             />
           }
