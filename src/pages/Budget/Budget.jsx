@@ -10,10 +10,12 @@ function Budget({
   onUpdateBudget,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isToggle, setIsToggle] = useState(false);
+  const [openBudgetMenuId, setOpenBudgetMenuId] = useState(null);
   const [editingBudget, setEditingBudget] = useState(null);
 
   function openModal() {
+    setEditingBudget(null);
+    setOpenBudgetMenuId(null);
     setIsOpen(true);
   }
 
@@ -22,15 +24,6 @@ function Budget({
   }
 
   function formatDate(dateFormat) {
-    /*
-    const date = new Date(dateFormat);
-    const formattedDate = date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-    */
-
     const [year, month, day] = dateFormat.split("-").map(Number);
 
     const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
@@ -240,23 +233,29 @@ function Budget({
                         className="budget-actions-button"
                         type="button"
                         onClick={() => {
-                          setIsToggle(!isToggle);
-                        }}>
-                        {isToggle ? (
-                          <i class="fa-solid fa-xmark"></i>
+                          setOpenBudgetMenuId((currentId) =>
+                            currentId === budget.id ? null : budget.id,
+                          );
+                        }}
+                        aria-label={`Actions for ${budget.name}`}
+                        aria-expanded={openBudgetMenuId === budget.id}>
+                        {openBudgetMenuId === budget.id ? (
+                          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                         ) : (
-                          <i className="fa-solid fa-ellipsis-vertical"></i>
+                          <i
+                            className="fa-solid fa-ellipsis-vertical"
+                            aria-hidden="true"></i>
                         )}
                       </button>
 
-                      {isToggle && (
+                      {openBudgetMenuId === budget.id && (
                         <div className="budget-action-menu">
                           <button
                             className="budget-action-edit"
                             onClick={() => {
                               setEditingBudget(budget);
                               setIsOpen(true);
-                              setIsToggle(false);
+                              setOpenBudgetMenuId(null);
                             }}
                             type="button">
                             <i className="fa-regular fa-pen-to-square"></i>
@@ -271,6 +270,7 @@ function Budget({
 
                               if (confirmed) {
                                 onDeleteBudget(budget.id);
+                                setOpenBudgetMenuId(budget.id);
                               }
                             }}
                             aria-label={`Delete ${budget.name} budget`}>
