@@ -69,18 +69,18 @@
 }
 
 .expense-icon {
-  color: var(--color-icon-1);
-  background-color: var(--color-icon-1-background);
+  color: var(--color-blue);
+  background-color: var(--color-blue-light);
 }
 
 .transactions-icon {
-  color: var(--color-icon-2);
-  background-color: var(--color-icon-2-background);
+  color: var(--color-dim-green);
+  background-color: var(--color-green-light);
 }
 
 .average-icon {
-  color: var(--color-icon-3);
-  background-color: var(--color-icon-3-background);
+  color: var(--color-purple);
+  background-color: var(--color-purple-light);
 }
 
 .budget-summary-label {
@@ -176,7 +176,7 @@
 
 .budget-progress-fill {
   height: 100%;
-  background-color: #16a34a;
+  background-color: var(--color-green);
   border-radius: inherit;
   transition: width 0.3s ease;
 }
@@ -306,8 +306,8 @@
 
 /* Edit button */
 .budget-action-edit:hover {
-  background-color: var(--color-background);
-  color: var(--color-text);
+  background-color: var(--color-blue-light);
+  color: var(--color-blue);
 }
 
 /* Delete button */

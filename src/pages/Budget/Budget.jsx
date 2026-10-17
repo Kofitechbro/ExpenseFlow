@@ -242,7 +242,11 @@ function Budget({
                         onClick={() => {
                           setIsToggle(!isToggle);
                         }}>
-                        <i className="fa-solid fa-ellipsis-vertical"></i>
+                        {isToggle ? (
+                          <i class="fa-solid fa-xmark"></i>
+                        ) : (
+                          <i className="fa-solid fa-ellipsis-vertical"></i>
+                        )}
                       </button>
 
                       {isToggle && (
