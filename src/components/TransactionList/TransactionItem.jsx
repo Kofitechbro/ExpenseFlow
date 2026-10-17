@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function TransactionItem({
   transaction,
@@ -9,16 +9,16 @@ function TransactionItem({
   const [isOpen, setIsOpen] = useState(false);
 
   const amount = transaction.amount;
-  const formattedAmount = amount.toLocaleString('en-GH', {
+  const formattedAmount = amount.toLocaleString("en-GH", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
   const date = new Date(transaction.date);
-  const formattedDate = date.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
+  const formattedDate = date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
   });
 
   return (
@@ -31,8 +31,7 @@ function TransactionItem({
         <div className="transaction-category">
           <span className="transaction-main">{transaction.category}</span>
           <span
-            className={`transaction-secondary transaction-${transaction.type.toLowerCase()}`}
-          >
+            className={`transaction-secondary transaction-${transaction.type.toLowerCase()}`}>
             {transaction.type}
           </span>
         </div>
@@ -54,8 +53,7 @@ function TransactionItem({
             type="button"
             onClick={() => {
               setIsOpen(!isOpen);
-            }}
-          >
+            }}>
             <i className="fa-solid fa-ellipsis-vertical"></i>
           </button>
 
@@ -68,8 +66,7 @@ function TransactionItem({
                     onEditTransaction(transaction);
                     setIsOpen(false);
                   }}
-                  type="button"
-                >
+                  type="button">
                   <i className="fa-regular fa-pen-to-square"></i>
                 </button>
                 <span className="transaction-tooltip">Edit</span>
@@ -82,8 +79,7 @@ function TransactionItem({
                   onClick={() => {
                     setShowConfirm(true);
                     setIsOpen(false);
-                  }}
-                >
+                  }}>
                   <i className="fa-solid fa-trash-can"></i>
                 </button>
                 <span className="transaction-tooltip">Delete</span>
@@ -102,14 +98,12 @@ function TransactionItem({
               onClick={() => {
                 setShowConfirm(false);
                 setIsOpen(false);
-              }}
-            >
+              }}>
               Cancel
             </button>
             <button
               className="delete-confirm"
-              onClick={() => onDeleteTransaction(transaction.id)}
-            >
+              onClick={() => onDeleteTransaction(transaction.id)}>
               Delete
             </button>
           </div>
