@@ -7,6 +7,29 @@ function Currency() {
   const [toCurrency, setToCurrency] = useState("");
   const [error, setError] = useState("");
 
+  async function testApiRequest() {
+    try {
+      // Sends the HTTP request and waits for the server to respond.
+      const response = await fetch(
+        "https://api.frankfurter.dev/v2/rate/USD/EUR",
+      );
+
+      // Checks whether the HTTP response indicates success. If not, the code throws an error.
+      if (!response.ok) {
+        throw new Error("Failed to fetch exchange rate.");
+      }
+
+      // Reads and parses the JSON response into a JavaScript object.
+      const data = await response.json();
+
+      console.log(data);
+
+      // block handles errors, such as a failed network request or an error thrown by our status check.
+    } catch (error) {
+      console.error("API request failed:", error);
+    }
+  }
+
   function validateAmount() {
     if (amount.trim() === "") {
       setError("Please enter an amount.");
@@ -79,7 +102,13 @@ function Currency() {
           </select>
         </div>
 
-        <button type="button" disabled onClick={validateAmount}>
+        <button
+          type="button"
+          // disabled
+          onClick={() => {
+            validateAmount();
+            testApiRequest();
+          }}>
           Convert
         </button>
 
