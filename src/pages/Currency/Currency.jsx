@@ -3,8 +3,25 @@ import "./Currency.css";
 
 function Currency() {
   const [amount, setAmount] = useState("1");
-  const [fromCurrency, setFromCurrency] = useState("USD");
-  const [toCurrency, setToCurrency] = useState("USD");
+  const [fromCurrency, setFromCurrency] = useState("");
+  const [toCurrency, setToCurrency] = useState("");
+  const [error, setError] = useState("");
+
+  function validateAmount() {
+    if (amount.trim() === "") {
+      setError("Please enter an amount.");
+      return;
+    }
+
+    const numericAmount = Number(amount);
+    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+      setError("Please enter a valid amount greater than zero");
+      return;
+    }
+
+    setError("");
+    return true;
+  }
 
   return (
     <main className="currency-page">
@@ -24,6 +41,12 @@ function Currency() {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
+
+          {error && (
+            <p className="currency-error" role="alert">
+              {error}
+            </p>
+          )}
         </div>
 
         <div className="currency-field">
@@ -32,10 +55,11 @@ function Currency() {
             id="from-currency"
             value={fromCurrency}
             onChange={(e) => setFromCurrency(e.target.value)}>
-            <option value="USD">USD — US Dollar</option>
-            <option value="GHS">GHS — Ghanaian Cedi</option>
             <option value="EUR">EUR — Euro</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="CNY">CNY — Chinese Yuan</option>
             <option value="GBP">GBP — British Pound</option>
+            <option value="GHS">GHS — Ghanaian Cedi</option>
             <option value="NGN">NGN — Nigerian Naira</option>
           </select>
         </div>
@@ -46,15 +70,16 @@ function Currency() {
             id="to-currency"
             value={toCurrency}
             onChange={(e) => setToCurrency(e.target.value)}>
-            <option value="USD">USD — US Dollar</option>
-            <option value="GHS">GHS — Ghanaian Cedi</option>
             <option value="EUR">EUR — Euro</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="CNY">CNY — Chinese Yuan</option>
             <option value="GBP">GBP — British Pound</option>
+            <option value="GHS">GHS — Ghanaian Cedi</option>
             <option value="NGN">NGN — Nigerian Naira</option>
           </select>
         </div>
 
-        <button type="button" disabled>
+        <button type="button" disabled onClick={validateAmount}>
           Convert
         </button>
 
