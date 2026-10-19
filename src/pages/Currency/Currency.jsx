@@ -7,9 +7,18 @@ function Currency() {
   const [toCurrency, setToCurrency] = useState("GHS");
   const [error, setError] = useState("");
   const [exchangeRate, setExchangeRate] = useState(null);
-  const [convertedAmount, setConvertedAmount] = useState(null)
+  const [convertedAmount, setConvertedAmount] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function testApiRequest() {
+    setError("");
+
+    if (fromCurrency === toCurrency) {
+      setExchangeRate(1);
+      setConvertedAmount(Number(amount));
+      return;
+    }
+
     try {
       // Sends the HTTP request and waits for the server to respond.
       const response = await fetch(
@@ -24,15 +33,16 @@ function Currency() {
       // Reads and parses the JSON response into a JavaScript object.
       const data = await response.json();
 
-      setExchangeRate(data.rate);
+      setExchangeRate(parseFloat(data.rate.toFixed(2)));
 
-      const result = Number(amount) * data.rate
+      const result = Number(amount) * data.rate;
 
-      setConvertedAmount(result)
+      setConvertedAmount(parseFloat(result.toFixed(2)));
 
       // block handles errors, such as a failed network request or an error thrown by our status check.
     } catch (error) {
       console.error("API request failed:", error);
+      setError("Unable to retrieve the exchange rate. Please try again.");
     }
   }
 
@@ -68,7 +78,12 @@ function Currency() {
             min="0"
             step="any"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => {
+              setAmount(e.target.value);
+              setExchangeRate(null);
+              setConvertedAmount(null);
+              setError("");
+            }}
           />
 
           {error && (
@@ -83,7 +98,12 @@ function Currency() {
           <select
             id="from-currency"
             value={fromCurrency}
-            onChange={(e) => setFromCurrency(e.target.value)}>
+            onChange={(e) => {
+              setFromCurrency(e.target.value);
+              setExchangeRate(null);
+              setConvertedAmount(null);
+            }}
+          >
             <option value="EUR">EUR — Euro</option>
             <option value="USD">USD — US Dollar</option>
             <option value="CNY">CNY — Chinese Yuan</option>
@@ -98,7 +118,12 @@ function Currency() {
           <select
             id="to-currency"
             value={toCurrency}
-            onChange={(e) => setToCurrency(e.target.value)}>
+            onChange={(e) => {
+              setToCurrency(e.target.value);
+              setExchangeRate(null);
+              setConvertedAmount(null);
+            }}
+          >
             <option value="EUR">EUR — Euro</option>
             <option value="USD">USD — US Dollar</option>
             <option value="CNY">CNY — Chinese Yuan</option>
@@ -113,26 +138,30 @@ function Currency() {
           // disabled
           onClick={() => {
             if (validateAmount()) {
-              testApiRequest()
-              }          
-              }}
+              testApiRequest();
+            }
+          }}
         >
           Convert
         </button>
 
         <div className="currency-result">
-          {exchangeRate !== null && 
-          <>
-            <div>
-            <span>Exchange rate</span>
-            <p>1 {fromCurrency} = {exchangeRate} {toCurrency}</p>
-            </div> 
-            <div>
-              <span>Converted amount</span>
-              <p>{convertedAmount} {toCurrency}</p>
-          </div>
-          </>
-          }
+          {exchangeRate !== null && (
+            <>
+              <div>
+                <span>Exchange rate</span>
+                <p>
+                  1 {fromCurrency} = {exchangeRate} {toCurrency}
+                </p>
+              </div>
+              <div>
+                <span>Converted amount</span>
+                <p>
+                  {convertedAmount} {toCurrency}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </section>
     </main>
