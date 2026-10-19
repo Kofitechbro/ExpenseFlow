@@ -4,14 +4,16 @@ import "./Currency.css";
 function Currency() {
   const [amount, setAmount] = useState("1");
   const [fromCurrency, setFromCurrency] = useState("");
-  const [toCurrency, setToCurrency] = useState("");
+  const [toCurrency, setToCurrency] = useState("GHS");
   const [error, setError] = useState("");
+  const [exchangeRate, setExchangeRate] = useState(null);
+  const [convertedAmount, setConvertedAmount] = useState(null)
 
   async function testApiRequest() {
     try {
       // Sends the HTTP request and waits for the server to respond.
       const response = await fetch(
-        "https://api.frankfurter.dev/v2/rate/USD/EUR",
+        `https://api.frankfurter.dev/v2/rate/${fromCurrency}/${toCurrency}`,
       );
 
       // Checks whether the HTTP response indicates success. If not, the code throws an error.
@@ -22,7 +24,11 @@ function Currency() {
       // Reads and parses the JSON response into a JavaScript object.
       const data = await response.json();
 
-      console.log(data);
+      setExchangeRate(data.rate);
+
+      const result = Number(amount) * data.rate
+
+      setConvertedAmount(result)
 
       // block handles errors, such as a failed network request or an error thrown by our status check.
     } catch (error) {
@@ -106,15 +112,28 @@ function Currency() {
           type="button"
           // disabled
           onClick={() => {
-            validateAmount();
-            testApiRequest();
-          }}>
+            if (validateAmount()) {
+              testApiRequest()
+              }          
+              }}
+        >
           Convert
         </button>
 
-        <p className="currency-result">
-          Your converted amount will appear here.
-        </p>
+        <div className="currency-result">
+          {exchangeRate !== null && 
+          <>
+            <div>
+            <span>Exchange rate</span>
+            <p>1 {fromCurrency} = {exchangeRate} {toCurrency}</p>
+            </div> 
+            <div>
+              <span>Converted amount</span>
+              <p>{convertedAmount} {toCurrency}</p>
+          </div>
+          </>
+          }
+        </div>
       </section>
     </main>
   );
