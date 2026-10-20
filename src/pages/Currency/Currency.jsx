@@ -3,15 +3,44 @@ import "./Currency.css";
 
 function Currency() {
   const [amount, setAmount] = useState("1");
-  const [fromCurrency, setFromCurrency] = useState("");
+  const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("GHS");
+
   const [error, setError] = useState("");
   const [exchangeRate, setExchangeRate] = useState(null);
   const [convertedAmount, setConvertedAmount] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  async function testApiRequest() {
+  function clearResult() {
+    setExchangeRate(null);
+    setConvertedAmount(null);
+  }
+
+  function validateAmount() {
+    if (amount.trim() === "") {
+      setError("Please enter an amount.");
+      return false;
+    }
+
+    const numericAmount = Number(amount);
+
+    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+      setError("Please enter a valid amount greater than zero");
+      return false;
+    }
+
     setError("");
+    return true;
+  }
+
+  async function handleConvert() {
+    if (!validateAmount()) {
+      clearResult();
+      return;
+    }
+
+    setError("");
+    clearResult();
 
     if (fromCurrency === toCurrency) {
       setExchangeRate(1);
@@ -29,13 +58,13 @@ function Currency() {
 
       // Checks whether the HTTP response indicates success. If not, the code throws an error.
       if (!response.ok) {
-        throw new Error("Failed to fetch exchange rate.");
+        throw new Error("The exchange rate could not be retrieved.");
       }
 
       // Reads and parses the JSON response into a JavaScript object.
       const data = await response.json();
 
-      setExchangeRate(parseFloat(data.rate.toFixed(2)));
+      setExchangeRate(data.rate);
 
       const result = Number(amount) * data.rate;
 
@@ -50,20 +79,22 @@ function Currency() {
     }
   }
 
-  function validateAmount() {
-    if (amount.trim() === "") {
-      setError("Please enter an amount.");
-      return;
-    }
-
-    const numericAmount = Number(amount);
-    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
-      setError("Please enter a valid amount greater than zero");
-      return;
-    }
-
+  function handleAmountChange(e) {
+    setAmount(e.target.value);
+    clearResult();
     setError("");
-    return true;
+  }
+
+  function handleFromCurrencyChange(e) {
+    setFromCurrency(e.target.value);
+    clearResult();
+    setError("");
+  }
+
+  function handleToCurrencyChange(e) {
+    setToCurrency(e.target.value);
+    clearResult();
+    setError("");
   }
 
   return (
@@ -82,19 +113,8 @@ function Currency() {
             min="0"
             step="any"
             value={amount}
-            onChange={(e) => {
-              setAmount(e.target.value);
-              setExchangeRate(null);
-              setConvertedAmount(null);
-              setError("");
-            }}
+            onChange={handleAmountChange}
           />
-
-          {error && (
-            <p className="currency-error" role="alert">
-              {error}
-            </p>
-          )}
         </div>
 
         <div className="currency-field">
@@ -102,11 +122,7 @@ function Currency() {
           <select
             id="from-currency"
             value={fromCurrency}
-            onChange={(e) => {
-              setFromCurrency(e.target.value);
-              setExchangeRate(null);
-              setConvertedAmount(null);
-            }}
+            onChange={handleFromCurrencyChange}
           >
             <option value="EUR">EUR — Euro</option>
             <option value="USD">USD — US Dollar</option>
@@ -122,11 +138,7 @@ function Currency() {
           <select
             id="to-currency"
             value={toCurrency}
-            onChange={(e) => {
-              setToCurrency(e.target.value);
-              setExchangeRate(null);
-              setConvertedAmount(null);
-            }}
+            onChange={handleToCurrencyChange}
           >
             <option value="EUR">EUR — Euro</option>
             <option value="USD">USD — US Dollar</option>
@@ -137,15 +149,7 @@ function Currency() {
           </select>
         </div>
 
-        <button
-          type="button"
-          disabled={isLoading}
-          onClick={() => {
-            if (validateAmount()) {
-              testApiRequest();
-            }
-          }}
-        >
+        <button type="button" disabled={isLoading} onClick={handleConvert}>
           {isLoading ? (
             <span className="loader" role="status" aria-label="Loading"></span>
           ) : (
@@ -153,24 +157,36 @@ function Currency() {
           )}
         </button>
 
-        <div className="currency-result">
-          {exchangeRate !== null && (
-            <>
-              <div>
-                <span>Exchange rate</span>
-                <p>
-                  1 {fromCurrency} = {exchangeRate} {toCurrency}
-                </p>
-              </div>
-              <div>
-                <span>Converted amount</span>
-                <p>
-                  {convertedAmount} {toCurrency}
-                </p>
-              </div>
-            </>
-          )}
-        </div>
+        {error && (
+          <p className="currency-error" role="alert">
+            {error}
+          </p>
+        )}
+        {exchangeRate !== null && convertedAmount !== null && (
+          <section className="currency-result" aria-live="polite">
+            <div className="currency-rate">
+              <span>Exchange rate</span>
+              <p>
+                1 {fromCurrency} ={" "}
+                {exchangeRate.toLocaleString("en-GH", {
+                  maximumFractionDigits: 6,
+                })}{" "}
+                {toCurrency}
+              </p>
+            </div>
+            <hr />
+            <div className="currency-rate">
+              <p className="currency-result-label">Converted amount</p>
+              <h2>
+                {convertedAmount.toLocaleString("en-GH", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                {toCurrency}
+              </h2>
+            </div>
+          </section>
+        )}
       </section>
     </main>
   );
