@@ -19,6 +19,8 @@ function Currency() {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       // Sends the HTTP request and waits for the server to respond.
       const response = await fetch(
@@ -43,6 +45,8 @@ function Currency() {
     } catch (error) {
       console.error("API request failed:", error);
       setError("Unable to retrieve the exchange rate. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -142,7 +146,11 @@ function Currency() {
             }
           }}
         >
-          Convert
+          {isLoading ? (
+            <span class="loader" role="status" aria-label="Loading"></span>
+          ) : (
+            "Convert"
+          )}
         </button>
 
         <div className="currency-result">
