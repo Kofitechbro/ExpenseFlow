@@ -139,7 +139,7 @@ function Currency() {
 
         <button
           type="button"
-          // disabled
+          disabled={isLoading}
           onClick={() => {
             if (validateAmount()) {
               testApiRequest();
@@ -147,7 +147,7 @@ function Currency() {
           }}
         >
           {isLoading ? (
-            <span class="loader" role="status" aria-label="Loading"></span>
+            <span className="loader" role="status" aria-label="Loading"></span>
           ) : (
             "Convert"
           )}
