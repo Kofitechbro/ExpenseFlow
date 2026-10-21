@@ -79,6 +79,13 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
       return;
     }
 
+    if (formData.month < getCurrentMonth()) {
+      setError((prevError) => ({
+        ...prevError,
+        month: "Please select the current month or a future month.",
+      }));
+    }
+
     if (editingBudget) {
       const updatedBudget = {
         ...editingBudget,
@@ -169,6 +176,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
             id="budget-month"
             name="month"
             value={formData.month}
+            // min={getCurrentMonth()} // this prevent users from selecting a past month.
             autoComplete="off"
             onChange={handleChange}
           />
