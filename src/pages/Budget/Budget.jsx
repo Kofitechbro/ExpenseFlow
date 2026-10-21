@@ -2,6 +2,18 @@ import "./Budget.css";
 import BudgetForm from "../../components/BudgetForm/BudgetForm";
 import { useState } from "react";
 
+function getCurrentMonth() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+
+  return `${year}-${month}`;
+}
+
+function getBudgetMonth(budget) {
+  return budget.month || budget.startDate?.slice(0, 7) || getCurrentMonth();
+}
+
 function Budget({
   budgets,
   onAddBudget,
@@ -24,13 +36,13 @@ function Budget({
   }
 
   function formatDate(dateFormat) {
-    const [year, month, day] = dateFormat.split("-").map(Number);
+    const [year, month] = dateFormat.split("-").map(Number);
 
-    const formattedDate = new Date(year, month - 1, day).toLocaleDateString(
+    const formattedDate = new Date(year, month - 1).toLocaleDateString(
       "en-GB",
       {
-        day: "2-digit",
-        month: "short",
+        // day: "2-digit",
+        month: "long",
         year: "numeric",
       },
     );
@@ -50,11 +62,13 @@ function Budget({
   }
 
   function totalExpenses(budget) {
+    const budgetMonth = getBudgetMonth(budget);
+
     const expenses = transactions.filter((transaction) => {
       return (
         transaction.type === "Expense" &&
-        transaction.date >= budget.startDate &&
-        transaction.date <= budget.endDate
+        typeof transaction.date === "string" &&
+        transaction.date.slice(0, 7) === budgetMonth
       );
     });
 
@@ -194,7 +208,8 @@ function Budget({
           <button
             type="button"
             className="budget-state-button"
-            onClick={openModal}>
+            onClick={openModal}
+          >
             Add Budget
           </button>
         </section>
@@ -222,10 +237,7 @@ function Budget({
                   <div className="budget-card-details">
                     <div>
                       <h3>{budget.name}</h3>
-                      <p>
-                        {formatDate(budget.startDate)} -{" "}
-                        {formatDate(budget.endDate)}
-                      </p>
+                      <p>{formatDate(getBudgetMonth(budget))}</p>
                     </div>
 
                     <div className="budget-action">
@@ -238,13 +250,18 @@ function Budget({
                           );
                         }}
                         aria-label={`Actions for ${budget.name}`}
-                        aria-expanded={openBudgetMenuId === budget.id}>
+                        aria-expanded={openBudgetMenuId === budget.id}
+                      >
                         {openBudgetMenuId === budget.id ? (
-                          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                          <i
+                            className="fa-solid fa-xmark"
+                            aria-hidden="true"
+                          ></i>
                         ) : (
                           <i
                             className="fa-solid fa-ellipsis-vertical"
-                            aria-hidden="true"></i>
+                            aria-hidden="true"
+                          ></i>
                         )}
                       </button>
 
@@ -257,7 +274,8 @@ function Budget({
                               setIsOpen(true);
                               setOpenBudgetMenuId(null);
                             }}
-                            type="button">
+                            type="button"
+                          >
                             <i className="fa-regular fa-pen-to-square"></i>
                           </button>
                           <button
@@ -270,10 +288,11 @@ function Budget({
 
                               if (confirmed) {
                                 onDeleteBudget(budget.id);
-                                setOpenBudgetMenuId(budget.id);
+                                setOpenBudgetMenuId(null);
                               }
                             }}
-                            aria-label={`Delete ${budget.name} budget`}>
+                            aria-label={`Delete ${budget.name} budget`}
+                          >
                             <i className="fa-solid fa-trash-can"></i>
                           </button>
                         </div>
@@ -303,10 +322,12 @@ function Budget({
                       aria-label={`Budget used for ${budget.name}`}
                       aria-valuenow={progressWidth}
                       aria-valuemin={0}
-                      aria-valuemax={100}>
+                      aria-valuemax={100}
+                    >
                       <div
                         className="budget-progress-fill"
-                        style={{ width: `${progressWidth}%` }}></div>
+                        style={{ width: `${progressWidth}%` }}
+                      ></div>
                     </div>
                     <p className="budget-card-percentage">
                       {percentageUsed.toFixed(1)}% used
@@ -323,7 +344,8 @@ function Budget({
         <section className="budget-modal-backdrop" onClick={closeModal}>
           <div
             className="budget-modal"
-            onClick={(event) => event.stopPropagation()}>
+            onClick={(event) => event.stopPropagation()}
+          >
             <BudgetForm
               key={editingBudget?.id ?? "No-Budget"}
               onAddBudget={onAddBudget}
