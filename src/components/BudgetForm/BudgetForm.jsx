@@ -1,30 +1,38 @@
 import { useState } from "react";
 import "./BudgetForm.css";
 
+function getCurrentMonth() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+
+  return `${year}-${month}`;
+}
+
 function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
   const [formData, setFormData] = useState(() => {
     if (editingBudget) {
       return {
         name: editingBudget.name,
         amount: String(editingBudget.amount),
-        startDate: editingBudget.startDate,
-        endDate: editingBudget.endDate,
+        month:
+          editingBudget?.month ||
+          editingBudget?.startDate?.slice(0, 7) ||
+          getCurrentMonth(),
       };
     }
 
     return {
       name: "",
       amount: "",
-      startDate: "",
-      endDate: "",
+      month: getCurrentMonth(),
     };
   });
 
   const [error, setError] = useState({
     name: "",
     amount: "",
-    startDate: "",
-    endDate: "",
+    month: "",
   });
 
   function handleChange(event) {
@@ -58,31 +66,15 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
     if (!Number.isFinite(amountValue) || amountValue < 0.01) {
       setError((prevError) => ({
         ...prevError,
-        amount: "Please enter an amount of at least 0.01",
+        amount: "Please enter a valid amount of at least 0.01.",
       }));
       return;
     }
 
-    if (formData.startDate.trim() === "") {
+    if (formData.month === "") {
       setError((prevError) => ({
         ...prevError,
-        startDate: "Please select a starting date",
-      }));
-      return;
-    }
-
-    if (formData.endDate.trim() === "") {
-      setError((prevError) => ({
-        ...prevError,
-        endDate: "Please select an end date",
-      }));
-      return;
-    }
-
-    if (formData.endDate < formData.startDate) {
-      setError((prevError) => ({
-        ...prevError,
-        endDate: "End date cannot be before the start date.",
+        month: "Please select a starting month",
       }));
       return;
     }
@@ -92,8 +84,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
         ...editingBudget,
         name: formData.name.trim(),
         amount: Number(formData.amount),
-        startDate: formData.startDate,
-        endDate: formData.endDate,
+        month: formData.month,
       };
 
       onUpdateBudget(updatedBudget);
@@ -102,8 +93,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
         id: Date.now(),
         name: formData.name.trim(),
         amount: Number(formData.amount),
-        startDate: formData.startDate,
-        endDate: formData.endDate,
+        month: formData.month,
       };
       onAddBudget(newBudget);
     }
@@ -111,8 +101,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
     setFormData({
       name: "",
       amount: "",
-      startDate: "",
-      endDate: "",
+      month: "",
     });
 
     setError({
@@ -133,7 +122,8 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
           type="button"
           className="budget-modal-close"
           onClick={onClose}
-          aria-label="Close budget form">
+          aria-label="Close budget form"
+        >
           &times;
         </button>
       </div>
@@ -172,33 +162,19 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="budget-start-date">Start Date:</label>
+          <label htmlFor="budget-month">Budget Month:</label>
           <input
-            type="date"
-            className={error.startDate ? "border-error" : ""}
-            id="budget-start-date"
-            name="startDate"
-            value={formData.startDate}
+            type="month"
+            className={error.month ? "border-error" : ""}
+            id="budget-month"
+            name="month"
+            value={formData.month}
             autoComplete="off"
             onChange={handleChange}
           />
-          {error.startDate && <p className="error-text">{error.startDate}</p>}
+          {error.month && <p className="error-text">{error.month}</p>}
         </div>
 
-        <div className="form-group">
-          <label htmlFor="budget-end-date">End Date:</label>
-          <input
-            type="date"
-            className={error.endDate ? "border-error" : ""}
-            id="budget-end-date"
-            name="endDate"
-            value={formData.endDate}
-            autoComplete="off"
-            onChange={handleChange}
-            min={formData.startDate || undefined}
-          />
-          {error.endDate && <p className="error-text">{error.endDate}</p>}
-        </div>
         <button type="submit">
           {editingBudget ? "Save Changes" : "Create Budget"}
         </button>
