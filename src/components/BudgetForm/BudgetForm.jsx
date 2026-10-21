@@ -16,7 +16,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
         name: editingBudget.name,
         amount: String(editingBudget.amount),
         month:
-          editingBudget?.month ||
+          editingBudget.month ||
           editingBudget?.startDate?.slice(0, 7) ||
           getCurrentMonth(),
       };
@@ -63,6 +63,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
     }
 
     const amountValue = Number(formData.amount);
+
     if (!Number.isFinite(amountValue) || amountValue < 0.01) {
       setError((prevError) => ({
         ...prevError,
@@ -84,13 +85,14 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
         ...prevError,
         month: "Please select the current month or a future month.",
       }));
+      return;
     }
-
-    if (editingBudget) {
-      const updatedBudget = {
-        ...editingBudget,
-        name: formData.name.trim(),
-        amount: Number(formData.amount),
+    /*
+if (editingBudget) {
+  const updatedBudget = {
+    ...editingBudget,
+    name: formData.name.trim(),
+    amount: Number(formData.amount),
         month: formData.month,
       };
 
@@ -104,11 +106,30 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
       };
       onAddBudget(newBudget);
     }
+*/
+
+    const budgetData = {
+      name: formData.name.trim(),
+      amount: Number(formData.amount),
+      month: formData.month,
+    };
+
+    if (editingBudget) {
+      onUpdateBudget({
+        ...editingBudget,
+        ...budgetData,
+      });
+    } else {
+      onAddBudget({
+        id: Date.now(),
+        ...budgetData,
+      });
+    }
 
     setFormData({
       name: "",
       amount: "",
-      month: "",
+      month: getCurrentMonth(),
     });
 
     setError({
