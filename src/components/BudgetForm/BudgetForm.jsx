@@ -9,7 +9,13 @@ function getCurrentMonth() {
   return `${year}-${month}`;
 }
 
-function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
+function BudgetForm({
+  budgets,
+  onAddBudget,
+  onUpdateBudget,
+  editingBudget,
+  onClose,
+}) {
   const [formData, setFormData] = useState(() => {
     if (editingBudget) {
       return {
@@ -19,6 +25,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
           editingBudget.month ||
           editingBudget?.startDate?.slice(0, 7) ||
           getCurrentMonth(),
+        category: editingBudget.category || "",
       };
     }
 
@@ -26,6 +33,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
       name: "",
       amount: "",
       month: getCurrentMonth(),
+      category: "",
     };
   });
 
@@ -33,6 +41,7 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
     name: "",
     amount: "",
     month: "",
+    category: "",
   });
 
   function handleChange(event) {
@@ -87,6 +96,31 @@ function BudgetForm({ onAddBudget, onUpdateBudget, editingBudget, onClose }) {
       }));
       return;
     }
+
+    if (formData.category === "") {
+      setError((prevError) => ({
+        ...prevError,
+        category: "Please select a budget category.",
+      }));
+      return;
+    }
+
+    const duplicateBudget = budgets.some((budget) => {
+      return (
+        budget.category === formData.category &&
+        budget.month === formData.month &&
+        budget.id !== editingBudget?.id
+      );
+    });
+
+    if (duplicateBudget) {
+      setError((prevError) => ({
+        ...prevError,
+        category: `A budget already exists for this category and month.`,
+      }));
+      return;
+    }
+
     /*
 if (editingBudget) {
   const updatedBudget = {
@@ -112,6 +146,7 @@ if (editingBudget) {
       name: formData.name.trim(),
       amount: Number(formData.amount),
       month: formData.month,
+      category: formData.category,
     };
 
     if (editingBudget) {
@@ -130,13 +165,14 @@ if (editingBudget) {
       name: "",
       amount: "",
       month: getCurrentMonth(),
+      category: "",
     });
 
     setError({
       name: "",
       amount: "",
-      startDate: "",
-      endDate: "",
+      month: "",
+      category: "",
     });
 
     onClose();
@@ -197,11 +233,33 @@ if (editingBudget) {
             id="budget-month"
             name="month"
             value={formData.month}
-            // min={getCurrentMonth()} // this prevent users from selecting a past month.
+            min={getCurrentMonth()} // this prevent users from selecting a past month.
             autoComplete="off"
             onChange={handleChange}
           />
           {error.month && <p className="error-text">{error.month}</p>}
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="budget-category">Budget Category</label>
+          <select
+            value={formData.category}
+            onChange={handleChange}
+            id="budget-category"
+            name="category"
+            className={error.category ? "border-error" : ""}
+          >
+            <option value="" disabled>
+              Select a Category
+            </option>
+            <option value="Health">Health</option>
+            <option value="Food & Drinks">Food & Drinks</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Bills & Utilities">Bills & Utilities</option>
+            <option value="Gift">Gift</option>
+          </select>
+          {error.category && <p className="error-text">{error.category}</p>}
         </div>
 
         <button type="submit">

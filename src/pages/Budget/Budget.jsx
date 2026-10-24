@@ -11,7 +11,7 @@ function getCurrentMonth() {
 }
 
 function getBudgetMonth(budget) {
-  return budget.month || budget.startDate?.slice(0, 7) || getCurrentMonth();
+  return budget.month || getCurrentMonth();
 }
 
 function Budget({
@@ -68,7 +68,8 @@ function Budget({
       return (
         transaction.type === "Expense" &&
         typeof transaction.date === "string" &&
-        transaction.date.slice(0, 7) === budgetMonth
+        transaction.date.slice(0, 7) === budgetMonth &&
+        transaction.category === budget.category
       );
     });
 
@@ -237,6 +238,7 @@ function Budget({
                   <div className="budget-card-details">
                     <div>
                       <h3>{budget.name}</h3>
+                      <p className="budget-category">{budget.category}</p>
                       <p>{formatDate(getBudgetMonth(budget))}</p>
                     </div>
 
@@ -307,7 +309,7 @@ function Budget({
 
                   <div className="budget-card-progress">
                     <div className="budget-card-progress-details">
-                      <span>Spent: {formatCurrency(spent)}</span>
+                      <span>Amount Spent: {formatCurrency(spent)}</span>
 
                       <span>
                         {remaining >= 0
@@ -348,6 +350,7 @@ function Budget({
           >
             <BudgetForm
               key={editingBudget?.id ?? "No-Budget"}
+              budgets={budgets}
               onAddBudget={onAddBudget}
               onUpdateBudget={onUpdateBudget}
               editingBudget={editingBudget}

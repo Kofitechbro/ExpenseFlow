@@ -73,7 +73,8 @@
   font-weight: 500;
 }
 
-.budget-form input {
+.budget-form input,
+.budget-form select {
   width: 100%;
   padding: 0.5rem 1rem;
   border: 1px solid var(--color-border);
@@ -87,12 +88,14 @@
     box-shadow 0.2s ease;
 }
 
-.budget-form input::placeholder {
+.budget-form input::placeholder,
+.budget-form select::placeholder {
   color: var(--color-text-muted);
   opacity: 0.5;
 }
 
-.budget-form input:focus {
+.budget-form input:focus,
+.budget-form select:focus {
   outline: none;
   border-color: var(--color-surface-dim);
 }
@@ -122,6 +125,6 @@
   font-size: 0.75rem;
 }
 
-.budget-form input.border-error {
+.budget-form .border-error {
   border-color: var(--color-red);
 }
