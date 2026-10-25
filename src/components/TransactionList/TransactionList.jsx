@@ -1,12 +1,12 @@
-import './TransactionList.css';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import TransactionItem from './TransactionItem';
-import TransactionSearch from '../TransactionFeatures/search/TransactionSearch';
-import CategoryFilter from '../TransactionFeatures/category/CategoryFilter';
-import TypeFilter from '../TransactionFeatures/type/TypeFilter';
-import TransactionSort from '../TransactionFeatures/sorting/TransactionSort';
-import TransactionReset from '../TransactionFeatures/reset/TransactionReset';
+import "./TransactionList.css";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import TransactionItem from "./TransactionItem";
+import TransactionSearch from "../TransactionFeatures/search/TransactionSearch";
+import CategoryFilter from "../TransactionFeatures/category/CategoryFilter";
+import TypeFilter from "../TransactionFeatures/type/TypeFilter";
+import TransactionSort from "../TransactionFeatures/sorting/TransactionSort";
+import TransactionReset from "../TransactionFeatures/reset/TransactionReset";
 
 function TransactionList({
   transactions,
@@ -14,10 +14,10 @@ function TransactionList({
   onEditTransaction,
   showViewAll,
 }) {
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('');
-  const [type, setType] = useState('');
-  const [sortBy, setSortBy] = useState('');
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const [type, setType] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   /*
   const filteredCategory = transactions.filter(
@@ -55,37 +55,37 @@ const filteredTransactions = transactions.filter((transaction) => {
   const searchTerm = search.toLowerCase();
   const filteredTransactions = transactions.filter(
     (transaction) =>
-      (search === '' ||
+      (search === "" ||
         transaction.description.toLowerCase().includes(searchTerm) ||
         transaction.category.toLowerCase().includes(searchTerm) ||
         transaction.type.toLowerCase().includes(searchTerm)) &&
-      (category === '' || transaction.category === category) &&
-      (type === '' || transaction.type === type),
+      (category === "" || transaction.category === category) &&
+      (type === "" || transaction.type === type),
   );
 
   const sortedTransactions = [...filteredTransactions].sort((a, b) => {
-    if (sortBy === 'newest') {
+    if (sortBy === "newest") {
       return b.date.localeCompare(a.date);
     }
 
-    if (sortBy === 'oldest') {
+    if (sortBy === "oldest") {
       return a.date.localeCompare(b.date);
     }
 
-    if (sortBy === 'highestAmount') {
+    if (sortBy === "highestAmount") {
       return b.amount - a.amount;
     }
 
-    if (sortBy === 'lowestAmount') {
+    if (sortBy === "lowestAmount") {
       return a.amount - b.amount;
     }
   });
 
   function resetFilters() {
-    setSearch('');
-    setCategory('');
-    setType('');
-    setSortBy('');
+    setSearch("");
+    setCategory("");
+    setType("");
+    setSortBy("");
   }
 
   const transactionCount = filteredTransactions.length;
@@ -157,14 +157,23 @@ const filteredTransactions = transactions.filter((transaction) => {
               <p>Try changing your search or filters.</p>
             </div>
           ) : (
-            sortedTransactions.map((transaction) => (
-              <TransactionItem
-                transaction={transaction}
-                onDeleteTransaction={onDeleteTransaction}
-                onEditTransaction={onEditTransaction}
-                key={transaction.id}
-              />
-            ))
+            <>
+              {/* <div className="transaction-table-header">
+                <span>Transaction</span>
+                <span>Category</span>
+                <span>Date</span>
+                <span>Amount</span>
+                <span aria-hidden="true"></span>
+              </div> */}
+              {sortedTransactions.map((transaction) => (
+                <TransactionItem
+                  transaction={transaction}
+                  onDeleteTransaction={onDeleteTransaction}
+                  onEditTransaction={onEditTransaction}
+                  key={transaction.id}
+                />
+              ))}
+            </>
           )}
         </div>
       </div>
