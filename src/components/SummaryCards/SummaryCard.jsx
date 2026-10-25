@@ -1,8 +1,8 @@
-function SummaryCard({title, amount}) {
+function SummaryCard({ title, amount }) {
   return (
     <div className="summary-card">
-      <h3>{title}</h3>
-      <p>₵{amount.toFixed(2)}</p>
+      <p>{title}</p>
+      <h3>₵{amount.toFixed(2)}</h3>
     </div>
   );
 }

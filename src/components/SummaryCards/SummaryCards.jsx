@@ -1,14 +1,14 @@
-import './SummaryCards.css';
-import SummaryCard from './SummaryCard';
+import "./SummaryCards.css";
+import SummaryCard from "./SummaryCard";
 
 function SummaryCards({ transactions }) {
   // Filter transactions based on type (income or expense)
   const incomeTransactions = transactions.filter(
-    (transaction) => transaction.type === 'Income',
+    (transaction) => transaction.type === "Income",
   );
 
   const expenseTransactions = transactions.filter(
-    (transaction) => transaction.type === 'Expense',
+    (transaction) => transaction.type === "Expense",
   );
 
   // Calculate total income, total expenses, and total balance
@@ -26,9 +26,9 @@ function SummaryCards({ transactions }) {
 
   return (
     <section className="summary-cards">
-      <SummaryCard title="Total Balance" amount={totalBalance} />
       <SummaryCard title="Total Income" amount={totalIncome} />
       <SummaryCard title="Total Expenses" amount={totalExpenses} />
+      <SummaryCard title="Total Balance" amount={totalBalance} />
     </section>
   );
 }
