@@ -1,3 +1,5 @@
+import { FaChartLine, FaEllipsisV, FaMoneyBillWave, FaPen, FaReceipt, FaTimes, FaTrashAlt, FaWallet } from 'react-icons/fa';
+
 import "./Budget.css";
 import BudgetForm from "../../components/BudgetForm/BudgetForm";
 import { useState } from "react";
@@ -156,7 +158,7 @@ function Budget({
         <div className="budget-summary-grid">
           <article className="budget-summary-card">
             <div className="budget-summary-icon expense-icon">
-              <i className="fa-solid fa-money-bill-wave" aria-hidden="true"></i>
+              <FaMoneyBillWave aria-hidden="true" />
             </div>
 
             <p className="budget-summary-label">Monthly Expenses</p>
@@ -167,7 +169,7 @@ function Budget({
 
           <article className="budget-summary-card">
             <div className="budget-summary-icon transactions-icon">
-              <i className="fa-solid fa-receipt" aria-hidden="true"></i>
+              <FaReceipt aria-hidden="true" />
             </div>
 
             <p className="budget-summary-label">Transactions</p>
@@ -180,7 +182,7 @@ function Budget({
 
           <article className="budget-summary-card">
             <div className="budget-summary-icon average-icon">
-              <i className="fa-solid fa-chart-line" aria-hidden="true"></i>
+              <FaChartLine aria-hidden="true" />
             </div>
 
             <p className="budget-summary-label">Average Expense</p>
@@ -197,7 +199,7 @@ function Budget({
       {budgets.length === 0 ? (
         <section className="budget-empty-state">
           <div className="budget-empty-icon" aria-label="Budget Icon">
-            <i className="fa-solid fa-cedi-sign"></i>
+            <FaWallet aria-hidden="true" />
           </div>
 
           <h2>Set Your Budget</h2>
@@ -255,15 +257,9 @@ function Budget({
                         aria-expanded={openBudgetMenuId === budget.id}
                       >
                         {openBudgetMenuId === budget.id ? (
-                          <i
-                            className="fa-solid fa-xmark"
-                            aria-hidden="true"
-                          ></i>
+                          <FaTimes aria-hidden="true" />
                         ) : (
-                          <i
-                            className="fa-solid fa-ellipsis-vertical"
-                            aria-hidden="true"
-                          ></i>
+                          <FaEllipsisV aria-hidden="true" />
                         )}
                       </button>
 
@@ -278,7 +274,7 @@ function Budget({
                             }}
                             type="button"
                           >
-                            <i className="fa-regular fa-pen-to-square"></i>
+                            <FaPen aria-hidden="true" />
                           </button>
                           <button
                             type="button"
@@ -295,7 +291,7 @@ function Budget({
                             }}
                             aria-label={`Delete ${budget.name} budget`}
                           >
-                            <i className="fa-solid fa-trash-can"></i>
+                            <FaTrashAlt aria-hidden="true" />
                           </button>
                         </div>
                       )}

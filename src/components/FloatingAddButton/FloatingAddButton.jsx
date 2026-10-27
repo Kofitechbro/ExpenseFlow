@@ -1,3 +1,5 @@
+import { FaPlus } from 'react-icons/fa';
+
 import './FloatingAddButton.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +13,7 @@ function FloatingAddButton({children}) {
   return (
     <div className="floating-button">
       <button onClick={handleTransactionNew} type="button">
-        {children}
+        <FaPlus aria-hidden="true" /> <span>{children}</span>
       </button>
     </div>
   );

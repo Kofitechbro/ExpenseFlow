@@ -8,10 +8,66 @@
 
 /* Individual summary card */
 .summary-card {
+  position: relative;
+  overflow: hidden;
   padding: 1.5rem;
-  background-color: var(--color-surface);
-  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.summary-card::after {
+  position: absolute;
+  right: -22px;
+  bottom: -28px;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: var(--card-tint);
+  content: "";
+  opacity: 0.65;
+}
+
+.summary-card:nth-child(1) {
+  --card-accent: var(--color-income);
+  --card-tint: var(--color-income-soft);
+}
+
+.summary-card:nth-child(2) {
+  --card-accent: var(--color-coral);
+  --card-tint: var(--color-coral-soft);
+}
+
+.summary-card:nth-child(3) {
+  --card-accent: var(--color-primary);
+  --card-tint: var(--color-primary-soft);
+}
+
+.summary-card:hover {
   box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+
+.summary-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  margin-bottom: 0.9rem;
+  border-radius: 12px;
+  background: var(--card-tint);
+  color: var(--card-accent);
+}
+
+.summary-card p {
+  margin: 0 0 0.35rem;
+  color: var(--color-text-muted);
+  font-size: 0.83rem;
+  font-weight: 700;
 }
 
 /* Card title */
@@ -20,6 +76,11 @@
   font-weight: 700;
   color: var(--color-text);
   overflow-wrap: anywhere;
+  z-index: 1;
+  color: var(--color-text);
+}
+
+.summary-card h3 {
 }
 
 /* Card amount */
@@ -84,6 +145,14 @@
 }
 
 /* Large desktop: 1440px and above */
+/* Financial summary cards */
+
+@media (max-width: 374px) {
+  .summary-card {
+    min-height: 132px;
+  }
+}
+
 @media (min-width: 1440px) {
   .summary-cards {
     gap: 1.25rem;

@@ -17,5 +17,8 @@
 }
 
 .floating-button button:hover {
+.floating-button { right: clamp(1rem, 4vw, 2rem); bottom: clamp(1rem, 4vw, 2rem); }
+.floating-button button { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 48px; padding: 0.75rem 1rem; border: 1px solid color-mix(in srgb, var(--color-primary) 60%, transparent); border-radius: 14px; background: var(--color-primary); color: var(--color-primary-text); box-shadow: 0 12px 24px color-mix(in srgb, var(--color-primary) 30%, transparent); transition: transform var(--transition), background-color var(--transition); }
+.floating-button button:hover { background: var(--color-primary-strong); opacity: 1; transform: translateY(-2px); }
   opacity: 0.9;
 }

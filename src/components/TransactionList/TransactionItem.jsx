@@ -1,3 +1,5 @@
+import { FaEllipsisV, FaPen, FaTrashAlt } from 'react-icons/fa';
+
 import { useState } from "react";
 
 function TransactionItem({
@@ -54,7 +56,7 @@ function TransactionItem({
             onClick={() => {
               setIsOpen(!isOpen);
             }}>
-            <i className="fa-solid fa-ellipsis-vertical"></i>
+            <FaEllipsisV aria-hidden="true" />
           </button>
 
           {isOpen && (
@@ -67,7 +69,7 @@ function TransactionItem({
                     setIsOpen(false);
                   }}
                   type="button">
-                  <i className="fa-regular fa-pen-to-square"></i>
+                  <FaPen aria-hidden="true" />
                 </button>
                 <span className="transaction-tooltip">Edit</span>
               </div>
@@ -80,7 +82,7 @@ function TransactionItem({
                     setShowConfirm(true);
                     setIsOpen(false);
                   }}>
-                  <i className="fa-solid fa-trash-can"></i>
+                  <FaTrashAlt aria-hidden="true" />
                 </button>
                 <span className="transaction-tooltip">Delete</span>
               </div>

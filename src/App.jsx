@@ -23,6 +23,11 @@ import storage from "./utils/storage";
 
 // App component
 function App() {
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("expenseflow-theme");
+    return savedTheme === "dark" ? "dark" : "light";
+  });
+
   // State for transactions
   const [transactions, setTransactions] = useState(() => {
     const storedTransactions = storage.getTransactions();
@@ -46,6 +51,11 @@ function App() {
   useEffect(() => {
     storage.saveBudgets(budgets);
   }, [budgets]);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem("expenseflow-theme", theme);
+  }, [theme]);
 
   // Function to handle adding a new transaction
   function handleAddTransaction(transaction) {
@@ -109,7 +119,12 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header
+        theme={theme}
+        onThemeToggle={() =>
+          setTheme((current) => (current === "light" ? "dark" : "light"))
+        }
+      />
       <Routes>
         {/* Dashboard Route Page */}
         <Route

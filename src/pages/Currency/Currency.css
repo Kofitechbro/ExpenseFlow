@@ -1,7 +1,7 @@
 .currency-page {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-  max-width: 600px;
+  max-width: 760px;
 }
 
 .currency-heading {
@@ -9,8 +9,9 @@
 }
 
 .currency-heading h1 {
-  margin-bottom: 0.5rem;
-  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  color: var(--color-text);
+  font-size: clamp(1.8rem, 3vw, 2.25rem);
+  letter-spacing: -0.045em;
 }
 
 .currency-heading p {
@@ -19,55 +20,62 @@
 }
 
 .currency-card {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1.25rem;
   width: 100%;
-  padding: 1.5rem;
-  background-color: var(--color-surface);
+  padding: clamp(1.2rem, 3vw, 1.75rem);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
   border: 1px solid var(--color-border);
-  border-radius: 1rem;
 }
 
 .currency-field {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.25rem;
+  width: 100%;
 }
 
 .currency-field label {
   font-size: 0.875rem;
+  color: var(--color-text);
   font-weight: 600;
-  color: var(--color-text-muted);
+  width: 100%;
 }
 
 .currency-field input,
 .currency-field select {
   width: 100%;
-  min-height: 44px;
-  padding: 0.75rem 1rem;
   color: var(--color-text);
-  background-color: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
   font: inherit;
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
 }
 
 .currency-field input:focus-visible,
-.currency-field select:focus-visible,
-.currency-convert-button:focus-visible {
-  outline: 1px solid var(--color-blue);
-  outline-offset: 1px;
+.currency-field select:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.currency-exchange {
+  display: flex;
+  gap: 1rem;
 }
 
 .currency-card button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  padding: 0.75rem 1rem;
-  color: var(--color-surface);
-  background-color: var(--color-surface-dim);
+  padding: 0.5rem 1rem;
+  color: var(--color-primary-text);
+  background: var(--color-primary);
   border: none;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-sm);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -75,20 +83,23 @@
 }
 
 .currency-card button:hover:not(:disabled) {
-  opacity: 0.85;
+  background: var(--color-primary-strong);
+  opacity: 1;
 }
 
 .currency-card button:disabled {
-  opacity: 0.55;
   cursor: wait;
+  opacity: 0.55;
 }
 
 .currency-error {
   font-size: 0.75rem;
-  color: var(--color-red);
-  background-color: var(--color-red-light);
+  color: var(--color-expense);
+  background: var(--color-expense-soft);
+  font-weight: 500;
   padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--color-expense) 34%, transparent);
+  border-radius: var(--radius-sm);
   overflow-wrap: anywhere;
 }
 
@@ -114,21 +125,18 @@
   gap: 1rem;
   padding: 1.25rem;
   color: var(--color-text);
-  background-color: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  overflow-wrap: anywhere;
-}
-
-.currency-result-label {
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-}
-
-.currency-result h2 {
-  font-size: clamp(1.375rem, 4vw, 1.75rem);
-  /* color: var(--color-green); */
-  margin: 0.25rem 0 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-soft),
+    var(--color-surface-secondary)
+  );
+  border: 1px solid;
+  border-color: color-mix(
+    in srgb,
+    var(--color-primary) 25%,
+    var(--color-border)
+  );
+  border-radius: var(--radius-md);
   overflow-wrap: anywhere;
 }
 
@@ -147,7 +155,31 @@
   width: 100%;
   margin: 0;
   border: 0;
-  border-top: 2px solid var(--color-border);
+  border: 1px solid;
+  border-color: color-mix(
+    in srgb,
+    var(--color-primary) 22%,
+    var(--color-border)
+  );
+}
+
+.currency-result-label {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.currency-result h2 {
+  color: var(--color-primary-strong);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  letter-spacing: -0.04em;
+  margin: 0.25rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 520px) {
+  .currency-exchange {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 480px) {

@@ -1,8 +1,16 @@
 import { useState } from "react";
+import { FaBars, FaMoon, FaSun, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-function Header() {
+const navigationItems = [
+  { to: "/", label: "Dashboard", end: true },
+  { to: "/transactions", label: "Transactions" },
+  { to: "/budget", label: "Budget" },
+  { to: "/currency", label: "Currency" },
+];
+
+function Header({ theme, onThemeToggle }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleMenu() {
@@ -14,9 +22,9 @@ function Header() {
   }
 
   return (
-    <header>
-      <nav>
-        <div className="nav-header-action">
+    <header className="site-header">
+      <nav className="site-nav" aria-label="Main navigation">
+        <div className="nav-brand">
           <button
             type="button"
             className="mobile-menu-button"
@@ -27,84 +35,68 @@ function Header() {
             aria-controls="mobile-navigation"
             onClick={handleMenu}
           >
-            {isMenuOpen ? "✕" : "☰"}
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
 
-          <span className="logo">ExpenseFlow</span>
+          <Link className="logo" to="/" onClick={() => setIsMenuOpen(false)}>
+            <span>ExpenseFlow</span>
+          </Link>
         </div>
 
         <div className="desktop-nav">
           <NavLinks />
         </div>
 
-        <HeaderAction />
+        <ThemeAction onThemeToggle={onThemeToggle} theme={theme} />
 
         {isMenuOpen && (
-          <MobileNav isMenuOpen={isMenuOpen} onClose={closeMenu} />
+          <div id="mobile-navigation" className="mobile-nav">
+            <NavLinks onNavigate={closeMenu} />
+          </div>
         )}
       </nav>
     </header>
   );
 }
 
-function MobileNav({ isMenuOpen, onClose }) {
-  return (
-    <div
-      id="mobile-navigation"
-      className={`mobile-nav ${isMenuOpen ? "open" : ""}`}
-      aria-hidden={!isMenuOpen}
-      inert={!isMenuOpen}
-    >
-      <NavLinks onNavigate={onClose} />
-    </div>
-  );
-}
-
 function NavLinks({ onNavigate }) {
   return (
     <ul className="nav-links">
-      <li>
-        <Link to="/" onClick={onNavigate}>
-          Dashboard
-        </Link>
-      </li>
-
-      <li>
-        <Link to="/transactions" onClick={onNavigate}>
-          Transactions
-        </Link>
-      </li>
-
-      <li>
-        <Link to="/budget" onClick={onNavigate}>
-          Budget
-        </Link>
-      </li>
-
-      <li>
-        <Link to="/currency" onClick={onNavigate}>
-          Currency
-        </Link>
-      </li>
+      {navigationItems.map(({ to, label, end }) => (
+        <li key={to}>
+          <Link
+            to={to}
+            end={end}
+            onClick={onNavigate}
+            className={({ isActive }) => (isActive ? "active" : undefined)}
+          >
+            <span>{label}</span>
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 }
 
-function HeaderAction() {
+function ThemeAction({ onThemeToggle, theme }) {
   return (
-    <div className="header-actions">
-      <button type="button" aria-label="Toggle theme">
-        <i className="fas fa-sun"></i>
-      </button>
-
-      <button type="button" aria-label="Notifications">
-        <i className="fas fa-bell"></i>
-      </button>
-
-      <button type="button" aria-label="Profile">
-        <i className="fas fa-user"></i>
-      </button>
-    </div>
+    <button
+      type="button"
+      className="theme-toggle"
+      onClick={onThemeToggle}
+      aria-label={
+        theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+      }
+      title={
+        theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+      }
+    >
+      {theme === "dark" ? (
+        <FaSun aria-hidden="true" />
+      ) : (
+        <FaMoon aria-hidden="true" />
+      )}
+    </button>
   );
 }
 

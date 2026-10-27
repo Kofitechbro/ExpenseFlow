@@ -117,43 +117,45 @@ function Currency() {
           />
         </div>
 
-        <div className="currency-field">
-          <label htmlFor="from-currency">From</label>
-          <select
-            id="from-currency"
-            value={fromCurrency}
-            onChange={handleFromCurrencyChange}
-          >
-            <option value="EUR">EUR — Euro</option>
-            <option value="USD">USD — US Dollar</option>
-            <option value="CNY">CNY — Chinese Yuan</option>
-            <option value="GBP">GBP — British Pound</option>
-            <option value="GHS">GHS — Ghanaian Cedi</option>
-            <option value="NGN">NGN — Nigerian Naira</option>
-          </select>
-        </div>
+        <div className="currency-exchange">
+          <div className="currency-field">
+            <label htmlFor="from-currency">From</label>
+            <select
+              id="from-currency"
+              value={fromCurrency}
+              onChange={handleFromCurrencyChange}
+            >
+              <option value="EUR">EUR — Euro</option>
+              <option value="USD">USD — US Dollar</option>
+              <option value="CNY">CNY — Chinese Yuan</option>
+              <option value="GBP">GBP — British Pound</option>
+              <option value="GHS">GHS — Ghanaian Cedi</option>
+              <option value="NGN">NGN — Nigerian Naira</option>
+            </select>
+          </div>
 
-        <div className="currency-field">
-          <label htmlFor="to-currency">To</label>
-          <select
-            id="to-currency"
-            value={toCurrency}
-            onChange={handleToCurrencyChange}
-          >
-            <option value="EUR">EUR — Euro</option>
-            <option value="USD">USD — US Dollar</option>
-            <option value="CNY">CNY — Chinese Yuan</option>
-            <option value="GBP">GBP — British Pound</option>
-            <option value="GHS">GHS — Ghanaian Cedi</option>
-            <option value="NGN">NGN — Nigerian Naira</option>
-          </select>
+          <div className="currency-field">
+            <label htmlFor="to-currency">To</label>
+            <select
+              id="to-currency"
+              value={toCurrency}
+              onChange={handleToCurrencyChange}
+            >
+              <option value="EUR">EUR — Euro</option>
+              <option value="USD">USD — US Dollar</option>
+              <option value="CNY">CNY — Chinese Yuan</option>
+              <option value="GBP">GBP — British Pound</option>
+              <option value="GHS">GHS — Ghanaian Cedi</option>
+              <option value="NGN">NGN — Nigerian Naira</option>
+            </select>
+          </div>
         </div>
 
         <button type="button" disabled={isLoading} onClick={handleConvert}>
           {isLoading ? (
             <span className="loader" role="status" aria-label="Loading"></span>
           ) : (
-            "Convert"
+            <> Convert</>
           )}
         </button>
 

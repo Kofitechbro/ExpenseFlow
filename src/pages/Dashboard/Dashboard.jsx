@@ -21,6 +21,12 @@ function Dashboard({ transactions, onDeleteTransaction, onEditTransaction }) {
 
   return (
     <main>
+      <section className="dashboard-hero">
+        <p className="eyebrow">Your money, in motion</p>
+        <h1>Financial overview</h1>
+        <p>See your balance, spending, and recent activity in one place.</p>
+      </section>
+
       <SummaryCards transactions={transactions} />
 
       <TransactionList

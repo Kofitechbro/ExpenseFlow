@@ -1,19 +1,15 @@
-main {
-  width: 100%;
-  max-width: 1280px;
-  margin: 2rem auto;
-  padding: 0 2rem;
+.App {
+  min-height: 100vh;
 }
 
-main h1 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-  color: var(--color-text);
+main {
+  width: min(100% - 2rem, 1180px);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 3vw, 2.75rem) 0 5.5rem;
 }
-/* 
-.dashboard-content {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  align-items: start;
-  gap: 1.5rem;
-} */
+
+@media (min-width: 768px) {
+  main {
+    width: min(100% - 4rem, 1180px);
+  }
+}
