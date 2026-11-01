@@ -1,4 +1,13 @@
-import { FaChartLine, FaEllipsisV, FaMoneyBillWave, FaPen, FaReceipt, FaTimes, FaTrashAlt, FaWallet } from 'react-icons/fa';
+import {
+  FaChartLine,
+  FaEllipsisV,
+  FaMoneyBillWave,
+  FaPen,
+  FaReceipt,
+  FaTimes,
+  FaTrashAlt,
+  FaWallet,
+} from "react-icons/fa";
 
 import "./Budget.css";
 import BudgetForm from "../../components/BudgetForm/BudgetForm";
