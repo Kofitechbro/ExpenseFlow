@@ -2,15 +2,17 @@
 
 ### Personal Finance & Budget Management Application
 
-ExpenseFlow is a React-based personal finance application designed to help users track income and expenses, manage budgets, and monitor spending patterns through a centralized dashboard.
+ExpenseFlow is a React-based personal finance application that helps users track income and expenses, manage budgets, and monitor their spending through a centralized dashboard.
 
-The project demonstrates practical frontend development skills, including component-based architecture, state management, client-side routing, data persistence, and responsive user interface development.
+The application features a vibrant purple visual identity, responsive layouts, and light and dark themes. It was built as a practical project to develop React skills and apply modern frontend development practices.
 
-## Overview
+## Live Demo
 
-Managing personal finances requires a clear understanding of income, expenses, and spending habits. ExpenseFlow brings these activities together in one interface, allowing users to record financial transactions, organize expenses, and review budget-related information.
+https://expense-flow-tracker-delta.vercel.app/
 
-Built as a hands-on development project, ExpenseFlow reflects an iterative approach to learning, problem-solving, and applying modern frontend development practices.
+## Source Code
+
+https://github.com/Kofitechbro/ExpenseFlow.git
 
 ## Key Features
 
@@ -29,6 +31,7 @@ Built as a hands-on development project, ExpenseFlow reflects an iterative appro
 - Search transactions using available search controls.
 - Filter transactions by category or type.
 - Sort transactions by date or amount.
+- View transaction details, including category, date, and payment method.
 
 ![ExpenseFlow No Transaction](src/assets/Screenshot/Transaction.png)
 ![ExpenseFlow with Transaction](<src/assets/Screenshot/Transaction 1.png>)
@@ -56,11 +59,13 @@ Built as a hands-on development project, ExpenseFlow reflects an iterative appro
 - Persist supported transaction and budget data using browser local storage.
 - Retain saved data across page reloads in the same browser and origin.
 
-### User Interface
+### User Interface and Design
 
-- Navigate between application sections using client-side routing.
-- Switch between available display themes.
-- Adapt layouts for different screen sizes through responsive CSS.
+- Purple-led visual identity with complementary accent colors.
+- Light and dark themes.
+- Responsive layouts for mobile, tablet, and desktop.
+- Reusable interface components and icons.
+- Consistent styling across application pages
 
 ## Technology Stack
 
@@ -94,7 +99,7 @@ Ensure the following tools are installed:
 **1. Clone the repository**
 
 ```bash
-git clone .(https://github.com/Kofitechbro/ExpenseFlow.git)
+git clone https://github.com/Kofitechbro/ExpenseFlow.git
 ```
 
 **2. Navigate to the project directory**
@@ -131,6 +136,12 @@ http://localhost:5173
 | `npm run build`   | Builds the application for production           |
 | `npm run lint`    | Runs ESLint to identify code-quality issues     |
 | `npm run preview` | Serves the production build locally for preview |
+
+## Design and Responsiveness
+
+ExpenseFlow uses a purple-led design system with complementary colors and separate light and dark themes.
+
+The interface is designed to adapt to different screen sizes while maintaining readable financial information, usable controls, and consistent spacing.
 
 ## Application Architecture
 
@@ -171,7 +182,6 @@ Potential areas for future development include:
 - Expanded financial reports and data visualizations.
 - Additional accessibility improvements.
 - Automated testing.
-- Further responsive design refinements.
 - More advanced budget analysis and spending insights.
 
 These enhancements are planned possibilities and may not yet be implemented.
