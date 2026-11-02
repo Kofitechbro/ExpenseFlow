@@ -81,6 +81,7 @@ https://github.com/Kofitechbro/ExpenseFlow.git
 | Browser Local Storage | Client-side data persistence                       |
 | Frankfurter API       | Exchange-rate data for currency conversion         |
 | Git & GitHub          | Version control and source code management         |
+| Vercel                | Application deployment and hosting                 |
 
 ## Getting Started
 
